@@ -21,7 +21,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{backgroundColor:"honeydew"}}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
