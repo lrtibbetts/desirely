@@ -1,9 +1,9 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getHabits } from "~/models/habit.server"
+import { getHabits, Habit } from "~/models/habit.server"
 
 type LoaderData = {
-    habits: Awaited<ReturnType<typeof getHabits>>;
+    habits: Array<Habit>;
 }
 
 export const loader: LoaderFunction = async () => {
@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async () => {
 }
 
 export default function HabitsPage() {
-    const habits = useLoaderData();
+    const { habits } = useLoaderData();
 
     const date = new Date();
     const dateString = date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -27,6 +27,13 @@ export default function HabitsPage() {
         <main>
             <h1>Good morning, {userName}!</h1>
             <h2>It is {dayOfWeekString}, {dateString} </h2>
+            <ul>
+                {habits.map((habit : Habit) => (
+                    <li key={habit.name}>
+                        {habit.name}
+                    </li>
+                ))}
+            </ul>
 
         </main>
     )
