@@ -21,7 +21,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body style={{backgroundColor:"honeydew"}}>
+      <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "7%", marginLeft: "8%"}}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
