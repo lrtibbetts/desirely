@@ -2,6 +2,8 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getHabits, Habit } from "~/models/habit.server"
 
+import rect from "../../assets/rect.svg";
+
 type LoaderData = {
     habits: Array<Habit>;
 }
@@ -21,24 +23,42 @@ export default function HabitsPage() {
     return (
         <main>
             <h1>Good morning, {userName}!</h1>
-            <h2>It is {today} </h2>
-            <ul>
+            <h2>It is {today}. </h2>
+            <div>
                 {habits.map((habit : Habit) => (
-                    Habit(habit)
+                    HabitLog(habit)
                 ))}
-            </ul>
-
+            </div>
         </main>
     )
 }
 
-function Habit(habit: Habit) {
-    const dayAbbreviations : Array<String> = [
+function HabitLog(habit: Habit) {
+    const dayAbbreviations : Array<string> = [
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
+    const days = getDatesOfCurrentWeek();
     return (
-        <li key={habit.name}>
-            {habit.name}
-        </li>
+        <div key={habit.name}>
+            <h3 style={{marginTop: "50px"}}>{habit.name}</h3>
+            {getDatesOfCurrentWeek().map((date : string) => (
+                <div style={{display: "inline-block", marginRight: "20px"}} key={date}>
+                    <img src={rect}/>
+                    <div>{dayAbbreviations[days.indexOf(date)]}</div>
+                    <div>{habit.dates.includes(date) ? "COMPLETED" : null}</div>
+                </div>
+            ))}
+        </div>
     );
+}
+
+function getDatesOfCurrentWeek() : Array<string> {
+    let dates = new Array<string>
+    const today = new Date();
+    const monday = today.getDate() - today.getDay() + 1;
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(today.setDate(monday + i));
+        dates.push(day.toISOString().split('T')[0]);
+    }
+    return dates;
 }

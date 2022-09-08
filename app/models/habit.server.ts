@@ -3,17 +3,20 @@ export type { Habit };
 
 type Habit = {
     name: string;
-    date: string;
+    dates: Array<string>;
 }
 
 export async function getHabits(): Promise<Array<Habit>> {
+    let date = new Date();
+    console.log(date.toUTCString());
+
     let run: Habit = {
         name: "run",
-        date: "2022-09-06T22:59:54Z"
+        dates: [ "2022-09-08", "2022-09-05" ]
     }
     let cook: Habit = {
         name: "cook dinner",
-        date: "2022-09-05T22:59:54Z"
+        dates: [ "2022-09-08" ]
     }
     return [ run, cook ];
 }
