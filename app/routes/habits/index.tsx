@@ -15,17 +15,13 @@ export const loader: LoaderFunction = async () => {
 export default function HabitsPage() {
     const { habits } = useLoaderData();
 
-    const date = new Date();
-    const dateString = date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
-    const dayOfWeek = date.getDay();
-    const dayOfWeekString = new Intl.DateTimeFormat('default', { weekday: 'long' }).format(dayOfWeek);
-
+    const today = new Intl.DateTimeFormat('default', { dateStyle: 'full'}).format(new Date());
     const userName = "Lucy"; // TODO: load user name from server
     
     return (
         <main>
             <h1>Good morning, {userName}!</h1>
-            <h2>It is {dayOfWeekString}, {dateString} </h2>
+            <h2>It is {today} </h2>
             <ul>
                 {habits.map((habit : Habit) => (
                     Habit(habit)
@@ -37,6 +33,9 @@ export default function HabitsPage() {
 }
 
 function Habit(habit: Habit) {
+    const dayAbbreviations : Array<String> = [
+        "M", "T", "W", "Th", "F", "S", "Su"
+    ];
     return (
         <li key={habit.name}>
             {habit.name}
