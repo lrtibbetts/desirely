@@ -19,7 +19,6 @@ export default function HabitsPage() {
     const dateString = date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
     const dayOfWeek = date.getDay();
     const dayOfWeekString = new Intl.DateTimeFormat('default', { weekday: 'long' }).format(dayOfWeek);
-    console.log(dayOfWeekString)
 
     const userName = "Lucy"; // TODO: load user name from server
     
@@ -29,12 +28,18 @@ export default function HabitsPage() {
             <h2>It is {dayOfWeekString}, {dateString} </h2>
             <ul>
                 {habits.map((habit : Habit) => (
-                    <li key={habit.name}>
-                        {habit.name}
-                    </li>
+                    Habit(habit)
                 ))}
             </ul>
 
         </main>
     )
+}
+
+function Habit(habit: Habit) {
+    return (
+        <li key={habit.name}>
+            {habit.name}
+        </li>
+    );
 }
