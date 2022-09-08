@@ -41,7 +41,7 @@ function HabitLog(habit: Habit) {
     return (
         <div key={habit.name}>
             <h3 style={{marginTop: "50px"}}>{habit.name}</h3>
-            {getDatesOfCurrentWeek().map((date : string) => (
+            {days.map((date : string) => (
                 <div style={{display: "inline-block", marginRight: "20px"}} key={date}>
                     <img src={rect}/>
                     <div>{dayAbbreviations[days.indexOf(date)]}</div>

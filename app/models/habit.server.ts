@@ -18,5 +18,9 @@ export async function getHabits(): Promise<Array<Habit>> {
         name: "cook dinner",
         dates: [ "2022-09-08" ]
     }
-    return [ run, cook ];
+    let yoga: Habit = {
+        name: "yoga",
+        dates: [ "2022-09-07", "2022-09-06" ]
+    }
+    return [ run, cook, yoga ];
 }
