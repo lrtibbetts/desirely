@@ -1,5 +1,4 @@
 
-
 export default function Index() {
   return (
     <div style={{lineHeight: "1.25", textAlign: "center" }}>
