@@ -1,14 +1,24 @@
 
-export type { Habit };
+import { prisma } from "~/db.server"
 
-type Habit = {
+export type Habit = {
     name: string;
     dates: Array<string>;
 }
 
 export async function getHabits(): Promise<Array<Habit>> {
-    let date = new Date();
-    console.log(date.toUTCString());
+    // Clean db
+    await prisma.habit.deleteMany();
+
+    await prisma.habit.create({
+        data: {
+            habit_name: "run"
+        }
+    });
+
+    const habits = await prisma.habit.findMany();
+    console.log(habits);
+    
 
     let run: Habit = {
         name: "run",

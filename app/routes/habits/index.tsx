@@ -19,7 +19,7 @@ export default function HabitsPage() {
 
     const today = new Intl.DateTimeFormat('default', { dateStyle: 'full'}).format(new Date());
     const userName = "Lucy"; // TODO: load user name from server
-    
+
     return (
         <main>
             <h1>Good morning, {userName}!</h1>
