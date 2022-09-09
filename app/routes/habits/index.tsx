@@ -15,8 +15,9 @@ export const loader: LoaderFunction = async () => {
 }
 
 export default function HabitsPage() {
-    const { habits } = useLoaderData();
-
+    // FIXME: Dates getting incorrectly deserialized as strings
+    const { habits }  = useLoaderData(); // as LoaderData
+    
     const today = new Intl.DateTimeFormat('default', { dateStyle: 'full'}).format(new Date());
     const userName = "Lucy"; // TODO: load user name from server
 
@@ -38,7 +39,6 @@ function HabitLog(habit: Habit) {
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
     const days : Array<Date> = getDatesOfCurrentWeek();
-    console.log(days);
     return (
         <div key={habit.habitName}>
             <h3 style={{marginTop: "50px"}}>{habit.habitName}</h3>
@@ -46,9 +46,7 @@ function HabitLog(habit: Habit) {
                 <div style={{display: "inline-block", marginRight: "20px"}} key={date.toISOString()}>
                     <img src={rect}/>
                     <div>{dayAbbreviations[days.indexOf(date)]}</div>
-                    <div>{habit.habitEntries.find((entry) => {
-                        // FIXME: why is the type string here
-                        console.log(typeof(entry.entryDate));
+                    <div>{habit.habitEntries.find((entry: {entryDate : Date}) => {
                         return new Date(entry.entryDate).getTime() === date.getTime();
                     }) ? "COMPLETED" : null}</div>
                 </div>

@@ -16,6 +16,6 @@ export async function getHabits(): Promise<Array<Habit>> {
             }
         }
     });
-
+    
     return habits;
 }
