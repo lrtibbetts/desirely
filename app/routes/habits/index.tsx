@@ -2,7 +2,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getHabits, Habit } from "~/models/habit.server"
 
-import rect from "../../assets/rect.svg";
+import rect from "~/assets/rect.svg";
 
 type LoaderData = {
     habits: Array<Habit>;
