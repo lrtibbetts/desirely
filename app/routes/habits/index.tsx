@@ -3,20 +3,19 @@ import { useLoaderData } from "@remix-run/react";
 import { getHabits, Habit } from "~/models/habit.server"
 
 import rect from "~/assets/rect.svg";
+import { serialize, deserialize } from "superjson";
 
 type LoaderData = {
     habits: Array<Habit>;
 }
 
 export const loader: LoaderFunction = async () => {
-    return json<LoaderData>({
-        habits: await getHabits(),
-    });
+    return serialize({ habits: await getHabits() });
 }
 
 export default function HabitsPage() {
-    // FIXME: Dates getting incorrectly deserialized as strings
-    const { habits }  = useLoaderData(); // as LoaderData
+    const data = useLoaderData();
+    const { habits }  = deserialize(data) as LoaderData;
     
     const today = new Intl.DateTimeFormat('default', { dateStyle: 'full'}).format(new Date());
     const userName = "Lucy"; // TODO: load user name from server
@@ -47,7 +46,7 @@ function HabitLog(habit: Habit) {
                     <img src={rect}/>
                     <div>{dayAbbreviations[days.indexOf(date)]}</div>
                     <div>{habit.habitEntries.find((entry: {entryDate : Date}) => {
-                        return new Date(entry.entryDate).getTime() === date.getTime();
+                        return entry.entryDate.getTime() === date.getTime();
                     }) ? "COMPLETED" : null}</div>
                 </div>
             ))}
