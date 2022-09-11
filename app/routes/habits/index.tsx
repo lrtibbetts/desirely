@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getHabits, Habit } from "~/models/habit.server"
 
@@ -9,6 +9,7 @@ type LoaderData = {
     habits: Array<Habit>;
 }
 
+// TODO: abstract use of superjson serialize/deserialize into wrapper
 export const loader: LoaderFunction = async () => {
     return serialize({ habits: await getHabits() });
 }
@@ -26,14 +27,14 @@ export default function HabitsPage() {
             <h2>It is {today}. </h2>
             <div>
                 {habits.map((habit : Habit) => (
-                    HabitLog(habit)
+                    WeeklyView(habit)
                 ))}
             </div>
         </main>
     )
 }
 
-function HabitLog(habit: Habit) {
+function WeeklyView(habit: Habit) {
     const dayAbbreviations : Array<string> = [
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
@@ -57,7 +58,7 @@ function HabitLog(habit: Habit) {
 function getDatesOfCurrentWeek() : Array<Date> {
     let dates = new Array<Date>();
     const today = new Date();
-    today.setUTCHours(0, 0, 0, 0); // Compare just by date, not time
+    today.setUTCHours(0, 0, 0, 0); // Will be comparing just by date, not time
     const monday = today.getDate() - today.getDay() + 1;
     for (let i = 0; i < 7; i++) {
         const day = new Date(today.setDate(monday + i));
