@@ -1,0 +1,19 @@
+.squiggle {
+    fill:none;
+    stroke:black;
+    stroke-width:0.264583;
+    stroke-dasharray:125;
+    
+    /** animate! **/
+    stroke-dashoffset: 125;
+    animation: dash 2s ease-in-out forwards;
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 125;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
