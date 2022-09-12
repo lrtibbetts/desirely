@@ -39,20 +39,17 @@ function WeeklyView(habit: Habit) {
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
     const days : Array<Date> = getDatesOfCurrentWeek();
-    // TODO: move inline CSS
+    // TODO: move inline CSS to stylesheet
     return (
         <div key={habit.habitName}>
             <h3 style={{marginTop: "50px"}}>{habit.habitName}</h3>
             {days.map((date : Date) => (
-                <div style={{display: "inline-block"}} key={date.toISOString()}>
-                    <div className="squiggle-container">
-                        <Squiggle/>
-                        <img src={rect}/>
-                    </div>
-                    <div>{dayAbbreviations[days.indexOf(date)]}</div>
+                <div className="squiggle-container" key={date.toISOString()}>
                     <div>{habit.habitEntries.find((entry: {entryDate : Date}) => {
                         return entry.entryDate.getTime() === date.getTime();
-                    }) ? "COMPLETED" : null}</div>
+                    }) ? <Squiggle/> : null}</div>
+                    <img src={rect}/>
+                    <div>{dayAbbreviations[days.indexOf(date)]}</div>
                 </div>
             ))}
         </div>
@@ -63,8 +60,8 @@ function getDatesOfCurrentWeek() : Array<Date> {
     let dates = new Array<Date>();
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Will be comparing just by date, not time
-    const monday = today.getDate() - today.getDay() + 1;
-    for (let i = 0; i < 7; i++) {
+    const monday = today.getDate() - today.getDay();
+    for (let i = 0; i < 7; i++) { 
         const day = new Date(today.setDate(monday + i));
         dates.push(day);
     }

@@ -21,13 +21,13 @@ async function seed() {
     const dinner = await prisma.habit.findUniqueOrThrow({ where: { habitName: "cook dinner"}});
 
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     await prisma.habitEntry.createMany({
         data: [
             { habitId: yoga.id,  entryDate: today },
-            { habitId: yoga.id, entryDate: yesterday },
+            { habitId: yoga.id, entryDate: tomorrow },
             { habitId: dinner.id, entryDate: today }
         ]
     });
