@@ -23,16 +23,15 @@ export const action: ActionFunction = async ({ request }) => {
 export default function NewHabit() {
     return(
         <Form method="post">
-            <p>
-                <label>
-                    Name:{""}
-                </label>
-                <input type="text" name="name">
-                </input>
-            </p>
-            <p>
-                <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Create Habit</button>
-            </p>
+            <div>
+                <p style={{display:"inline-block", marginRight: "10px"}}>
+                    <label>Name:{""}</label>
+                    <input type="text" name="name"></input>
+                </p>
+                <p style={{display:"inline-block"}}>
+                    <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Create Habit</button>
+                </p>
+            </div>
         </Form>
     );
 }
