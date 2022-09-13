@@ -44,16 +44,36 @@ function WeeklyView(habit: Habit) {
     return (
         <div key={habit.habitName}>
             <h3 style={{marginTop: "50px"}}>{habit.habitName}</h3>
-            {days.map((date : Date) => (
-                <div className="squiggle-container" key={date.toISOString()}>
-                    <div>{habit.habitEntries.find((entry: {entryDate : Date}) => {
+            {days.map((date: Date) => (
+                <DailyView
+                    date={date}
+                    habitId={habit.id}
+                    completed={habit.habitEntries.find((entry: {entryDate : Date}) => {
                         return entry.entryDate.getTime() === date.getTime();
-                    }) ? <Squiggle/> : null}</div>
-                    <img src={rect}/>
-                    <div>{dayAbbreviations[days.indexOf(date)]}</div>
-                </div>
+                    }) ? true : false}
+                    dayAbbreviation={dayAbbreviations[days.indexOf(date)]}/>
             ))}
         </div>
+    );
+}
+
+type DailyViewProps = {
+    date: Date;
+    habitId: bigint;
+    completed: boolean;
+    dayAbbreviation: string;
+}
+
+function DailyView(props: DailyViewProps) {
+
+    // TODO: use habitId, completed to update db on click
+
+    return(
+        <div className="squiggle-container" key={props.date.toISOString()}>
+                    <div>{props.completed ? <Squiggle/> : null}</div>
+                    <img src={rect}/>
+                    <div>{props.dayAbbreviation}</div>
+                </div>
     );
 }
 

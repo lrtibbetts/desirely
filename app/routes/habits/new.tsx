@@ -20,6 +20,7 @@ export const action: ActionFunction = async ({ request }) => {
     return redirect("/habits");
 }
 
+// TODO: move inline CSS to stylesheet
 export default function NewHabit() {
     return(
         <Form method="post">
