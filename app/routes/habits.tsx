@@ -1,6 +1,6 @@
 import { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { getHabits, Habit } from "~/models/habit.server"
+import { Habit, HabitEntry, getHabits, createHabitEntry } from "~/models/habit.server"
 
 import rect from "~/assets/rect.svg";
 import { serialize, deserialize } from "superjson";
@@ -23,7 +23,7 @@ export default function HabitsPage() {
 
     return (
         <main>
-            <h1>Good morning, {userName}!</h1>
+            <h1>Hello, {userName}!</h1>
             <h2>It is {today}. </h2>
             <Outlet/>
             <div>
