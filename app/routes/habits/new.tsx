@@ -27,7 +27,7 @@ export default function NewHabit() {
             <div>
                 <p style={{display:"inline-block", marginRight: "10px"}}>
                     <label>Name:{""}</label>
-                    <input type="text" name="name"></input>
+                    <input type="text" name="name" style={{fontFamily: "Courier New, monospace"}}></input>
                 </p>
                 <p style={{display:"inline-block"}}>
                     <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Create Habit</button>
