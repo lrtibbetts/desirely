@@ -26,3 +26,10 @@
         stroke-dashoffset: 0;
     }
 }
+
+.day-button {
+    margin-right: 20px;
+    border: none;
+    background-color: transparent;
+    font-family: 'Courier New', Courier, monospace;
+}
