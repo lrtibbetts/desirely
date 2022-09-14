@@ -13,8 +13,7 @@
     margin-left: 5px;
 }
 
-.squiggle-container {
-    position: relative;
+.container {
     display: inline-block;
     margin-right: 20px;
 }

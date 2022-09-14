@@ -12,7 +12,7 @@ export default function DailyView(props: DailyViewProps) {
     // TODO: use habitId, completed to update db on click
 
     return(
-        <div className="squiggle-container">
+        <div className="container">
             <div>{props.completed ? <Squiggle/> : null}</div>
             <img src={rect}/>
             <div>{props.dayAbbreviation}</div>
