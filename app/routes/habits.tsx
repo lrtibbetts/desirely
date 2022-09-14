@@ -18,10 +18,10 @@ export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
 
     const dateStr = formData.get("date") as string;
-    const habitIdNum = formData.get("id") as string;
+    const habitIdStr = formData.get("id") as string;
     const completed = formData.get("completed") as string;
 
-    const habitId = BigInt(habitIdNum);
+    const habitId = BigInt(habitIdStr);
     const entryDate = new Date(dateStr);
 
     if (!(completed === "true")) {
