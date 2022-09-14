@@ -3,18 +3,11 @@ import { Form } from "@remix-run/react";
 
 import { createHabit } from "~/models/habit.server";
 
-import invariant from "tiny-invariant";
-
 export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData();
-    const habitName = formData.get("name");
+    const habitName = formData.get("name") as string;
 
-    invariant(
-        typeof habitName === "string",
-        "habit name must be a string"
-    );
-
-    console.log(`creating new habit ${habitName}`);
+    console.log(`Creating new habit ${habitName}`);
     await createHabit({habitName});
 
     return redirect("/habits");

@@ -7,7 +7,8 @@ export type Habit = {
 }
 
 export type HabitEntry = {
-    habitId: bigint
+    habitId: bigint,
+    entryDate: Date,
 }
 
 export async function getHabits(): Promise<Array<Habit>> {
@@ -26,10 +27,20 @@ export async function getHabits(): Promise<Array<Habit>> {
     return habits;
 }
 
-export async function createHabitEntry(entry: Pick<HabitEntry, "habitId">) {
+// FIXME: date should not default to current date in db schema
+export async function createHabitEntry(entry: Pick<HabitEntry, "habitId" | "entryDate">) {
     await prisma.habitEntry.create({data: entry});
 }
 
 export async function createHabit(habit: Pick<Habit, "habitName">) {
     await prisma.habit.create({data: habit});
+}
+
+export async function deleteHabitEntry(habitId: bigint, entryDate: Date) {
+    await prisma.habitEntry.deleteMany({
+        where: {
+            habitId: habitId,
+            entryDate: entryDate,
+        }
+    });
 }

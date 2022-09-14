@@ -1,6 +1,6 @@
-import { LoaderFunction } from "@remix-run/node";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { Habit, HabitEntry, getHabits, createHabitEntry } from "~/models/habit.server"
+import { Habit, getHabits, createHabitEntry, deleteHabitEntry } from "~/models/habit.server"
 import WeeklyView from "~/components/WeeklyView";
 
 import { serialize, deserialize } from "superjson";
@@ -12,6 +12,26 @@ type LoaderData = {
 // TODO: abstract use of superjson serialize/deserialize into wrapper
 export const loader: LoaderFunction = async () => {
     return serialize({ habits: await getHabits() });
+}
+
+export const action: ActionFunction = async ({ request }) => {
+    const formData = await request.formData();
+
+    const dateStr = formData.get("date") as string;
+    const habitIdNum = formData.get("id") as string;
+    const completed = formData.get("completed") as string;
+
+    const habitId = BigInt(habitIdNum);
+    const entryDate = new Date(dateStr);
+
+    if (!(completed === "true")) {
+        await createHabitEntry({habitId, entryDate});
+    } else {
+        // TODO: erasing animation?
+        await deleteHabitEntry(habitId, entryDate);
+    }
+
+    return null;
 }
 
 export default function HabitsPage() {

@@ -1,3 +1,4 @@
+import { Form } from "@remix-run/react";
 import rect from "~/assets/rect.svg";
 
 type DailyViewProps = {
@@ -8,20 +9,21 @@ type DailyViewProps = {
 }
 
 export default function DailyView(props: DailyViewProps) {
-
-    // TODO: use habitId, completed to update db on click
-
     return(
-        <div className="day-container">
-            <button className="day-button">
+        <Form className="day-container" method="post">
+            <input type="hidden" name="completed" value={props.completed.toString()}/>
+            <input type="hidden" name="date" value={props.date.toISOString()}/>
+            <input type="hidden" name="id" value={props.habitId.toString()}/>
+            <button className="day-button" type="submit">
                 <span>{props.completed ? <Squiggle/> : null}</span>
                 <img src={rect}/>
             </button>
             <div>{props.dayAbbreviation}</div>
-        </div>
+        </Form>
     );
 }
 
+// TODO: only animate squiggle on click (not page load)
 function Squiggle() {
     return(
       <svg
