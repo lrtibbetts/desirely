@@ -3,14 +3,16 @@
     stroke:black;
     stroke-width:0.4;
     stroke-dasharray:125;
-    
-    /** animate! **/
-    stroke-dashoffset: 125;
-    animation: dash 2s ease-in-out forwards;
 
     /** position **/
     position: absolute;
     margin-left: 5px;
+}
+
+.animating {
+    /** animate! **/
+    stroke-dashoffset: 125;
+    animation: dash 2s ease-in-out forwards;
 }
 
 @keyframes dash {
@@ -21,7 +23,6 @@
         stroke-dashoffset: 0;
     }
 }
-
 
 .day-container {
     display: inline-block;
