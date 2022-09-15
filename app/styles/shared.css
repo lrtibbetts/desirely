@@ -35,3 +35,8 @@
     background-color: transparent; 
     padding: 0px;
 }
+
+.day-rect :hover {
+    transform: scale(1.1);
+    transition: ease 200ms;
+}

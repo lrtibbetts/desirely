@@ -30,7 +30,7 @@ export default function DailyView(props: DailyViewProps) {
                 <span>
                     <Squiggle visible={isVisible} animating={isAnimating}/>
                 </span>
-                <img src={rect}/>
+                <span className="day-rect"><img src={rect}/></span>
             </button>
             <div>{props.dayAbbreviation}</div>
         </Form>
