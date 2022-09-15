@@ -27,7 +27,6 @@ export async function getHabits(): Promise<Array<Habit>> {
     return habits;
 }
 
-// FIXME: date should not default to current date in db schema
 export async function createHabitEntry(entry: Pick<HabitEntry, "habitId" | "entryDate">) {
     await prisma.habitEntry.create({data: entry});
 }

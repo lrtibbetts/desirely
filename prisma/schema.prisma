@@ -22,17 +22,17 @@ model HabitEntry {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   habitId    BigInt
-  entryDate  DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  entryDate  DateTime @db.Date
   habit      Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 
   @@unique([habitId, entryDate])
 }
 
 model User {
-  id            BigInt @id @default(autoincrement())
+  id            BigInt   @id @default(autoincrement())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  email         String
+  email         String   @unique
   passwordHash  String
   habits        Habit[]
 }
