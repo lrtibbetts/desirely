@@ -6,6 +6,14 @@ async function seed() {
     // Clean db
     await prisma.habitEntry.deleteMany();
     await prisma.habit.deleteMany();
+    await prisma.user.deleteMany();
+
+    // Create a user
+    await prisma.user.createMany({
+      data: [
+        { email: "lucilletibbetts@gmail.com", passwordHash: "xyz" }
+      ]
+    })
 
     // Create a couple habits
     await prisma.habit.createMany({
