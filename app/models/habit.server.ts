@@ -2,6 +2,7 @@ import { prisma } from "~/db.server"
 
 export type Habit = {
     id: string,
+    userId: string,
     habitName: string,
     habitEntries: { entryDate: Date }[],
 }
@@ -11,10 +12,12 @@ export type HabitEntry = {
     entryDate: Date,
 }
 
-export async function getHabits(): Promise<Array<Habit>> {
+export async function getHabits(userId: string): Promise<Array<Habit>> {
     const habits : Array<Habit> = await prisma.habit.findMany({
+        where: { userId: userId },
         select: {
             id: true,
+            userId: true,
             habitName: true,
             habitEntries: {
                 select: {
@@ -31,7 +34,7 @@ export async function createHabitEntry(entry: Pick<HabitEntry, "habitId" | "entr
     await prisma.habitEntry.create({data: entry});
 }
 
-export async function createHabit(habit: Pick<Habit, "habitName">) {
+export async function createHabit(habit: Pick<Habit, "habitName" | "userId">) {
     await prisma.habit.create({data: habit});
 }
 

@@ -5,14 +5,14 @@ import { createHabit } from "~/models/habit.server";
 import { requireUserId } from "~/models/user.server";
 
 export const action: ActionFunction = async ({ request }) => {
-    const userId = await requireUserId(request, "/login");
+    const userId = await requireUserId(request, "/login") as string;
 
     const formData = await request.formData();
     const habitName = formData.get("name") as string;
 
     console.log(`Creating new habit ${habitName}`);
     // TODO: use userId to create habit
-    await createHabit({habitName});
+    await createHabit({habitName, userId});
 
     return redirect("/habits");
 }

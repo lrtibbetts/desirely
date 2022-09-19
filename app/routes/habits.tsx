@@ -11,12 +11,13 @@ type LoaderData = {
 }
 
 // TODO: abstract use of superjson serialize/deserialize into wrapper
-export const loader: LoaderFunction = async () => {
-    return serialize({ habits: await getHabits() });
+export const loader: LoaderFunction = async ({ request }) => {
+    const userId = await requireUserId(request, "/login") as string;
+    return serialize({ habits: await getHabits(userId) });
 }
 
 export const action: ActionFunction = async ({ request }) => {
-    const userId = requireUserId(request, "/login");
+    requireUserId(request, "/login");
 
     const formData = await request.formData();
 
@@ -26,7 +27,6 @@ export const action: ActionFunction = async ({ request }) => {
 
     const entryDate = new Date(dateStr);
 
-    // TODO: use userId
     if (!(completed === "true")) {
         await createHabitEntry({habitId, entryDate});
     } else {
