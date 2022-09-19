@@ -1,13 +1,13 @@
 import { prisma } from "~/db.server"
 
 export type Habit = {
-    id: bigint,
+    id: string,
     habitName: string,
     habitEntries: { entryDate: Date }[],
 }
 
 export type HabitEntry = {
-    habitId: bigint,
+    habitId: string,
     entryDate: Date,
 }
 
@@ -35,7 +35,7 @@ export async function createHabit(habit: Pick<Habit, "habitName">) {
     await prisma.habit.create({data: habit});
 }
 
-export async function deleteHabitEntry(habitId: bigint, entryDate: Date) {
+export async function deleteHabitEntry(habitId: string, entryDate: Date) {
     await prisma.habitEntry.deleteMany({
         where: {
             habitId: habitId,

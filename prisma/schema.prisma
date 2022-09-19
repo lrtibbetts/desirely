@@ -8,20 +8,20 @@ datasource db {
 }
 
 model Habit {
-  id            BigInt       @id @default(autoincrement())
+  id            String       @id @default(uuid())
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  userId        BigInt
+  userId        String
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   habitName     String       @unique
   habitEntries  HabitEntry[]
 }
 
 model HabitEntry {
-  id         BigInt   @id @default(autoincrement())
+  id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  habitId    BigInt
+  habitId    String
   entryDate  DateTime @db.Date
   habit      Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 
@@ -29,7 +29,7 @@ model HabitEntry {
 }
 
 model User {
-  id            BigInt   @id @default(autoincrement())
+  id            String   @id @default(uuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   email         String   @unique
