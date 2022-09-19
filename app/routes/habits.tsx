@@ -4,6 +4,7 @@ import { Habit, getHabits, createHabitEntry, deleteHabitEntry } from "~/models/h
 import WeeklyView from "~/components/WeeklyView";
 
 import { serialize, deserialize } from "superjson";
+import { requireUserId } from "~/models/user.server";
 
 type LoaderData = {
     habits: Array<Habit>;
@@ -15,15 +16,17 @@ export const loader: LoaderFunction = async () => {
 }
 
 export const action: ActionFunction = async ({ request }) => {
+    const userId = requireUserId(request, "/login");
+
     const formData = await request.formData();
 
     const dateStr = formData.get("date") as string;
-    const habitIdStr = formData.get("id") as string;
+    const habitId = formData.get("id") as string;
     const completed = formData.get("completed") as string;
 
-    const habitId = BigInt(habitIdStr);
     const entryDate = new Date(dateStr);
 
+    // TODO: use userId
     if (!(completed === "true")) {
         await createHabitEntry({habitId, entryDate});
     } else {
