@@ -1,34 +1,25 @@
-# Welcome to Remix!
+# desirely
 
-- [Remix Docs](https://remix.run/docs)
+## What does desirely mean?
 
-## Deployment
+It is a made up word, and its intended meaning is *with desire*.
 
-After having run the `create-remix` command and selected "Vercel" as a deployment target, you only need to [import your Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
+The reason for naming a habit tracking app *desirely* is the belief that the habits we are pursuing ought to align with the *big desires we have for our lives*. This might sound obvious, but it is tremendously easy to pursue habits for the sake of outward appearance, or to keep up with our friends, or because the productivity zeitgeist tells us to.
 
-If you'd like to avoid using a Git repository, you can also deploy the directory by running [Vercel CLI](https://vercel.com/cli):
+## What does desirely do?
 
-```sh
-npm i -g vercel
-vercel
-```
-
-It is generally recommended to use a Git repository, because future commits will then automatically be deployed by Vercel, through its [Git Integration](https://vercel.com/docs/concepts/git).
+It is a (WIP) habit tracking application, created primarily as an exuse to play around with fun new web tech. It was built with TypeScript, Remix, Prisma, and Supabase.
 
 ## Development
 
-To run your Remix app locally, make sure your project's local dependencies are installed:
+*TODO*: instructions for setting up Supabase
 
+To run desirely locally, make sure your project's local dependencies are installed:
 ```sh
 npm install
 ```
 
-Afterwards, start the Remix development server like so:
-
+Afterwards, start the development server:
 ```sh
 npm run dev
 ```
-
-Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
-
-If you're used to using the `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) instead, you can also use that, but it's not needed.
