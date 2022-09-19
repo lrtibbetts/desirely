@@ -8,16 +8,11 @@ type User = {
     passwordHash: string,
 }
 
-type LoginForm = {
-    email: string,
-    password: string,
-}
-
 export async function createUser(user: User) {
     await prisma.user.create({data: user});
 }
 
-export async function login({email, password}: LoginForm) {
+export async function login(email: string, password: string) {
     const user = await prisma.user.findUniqueOrThrow({
         where: { email }
     });
@@ -33,7 +28,7 @@ export async function login({email, password}: LoginForm) {
     if (!correctPassword) {
         // TODO
     }
-    return { id: user.id } // TODO: return type?
+    return user.id; // TODO: need anything other than id? probably return object later
 }
 
 const sessionSecret = process.env.SESSION_SECRET;
@@ -54,7 +49,7 @@ const storage = createCookieSessionStorage({
     }
 })
 
-export async function createUserSession(userId: string, redirectTo: string) {
+export async function createUserSession(userId: bigint, redirectTo: string) {
     const session = await storage.getSession();
     session.set("userId", userId);
     return redirect(redirectTo, {

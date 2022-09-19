@@ -9,18 +9,21 @@ async function seed() {
     await prisma.user.deleteMany();
 
     // Create a user
+    const email = "lucilletibbetts@gmail.com";
     await prisma.user.createMany({
       data: [
-        { email: "lucilletibbetts@gmail.com", passwordHash: "xyz" }
+        { email: email, passwordHash: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u" }
       ]
     })
 
+    // Fetch user
+    const me = await prisma.user.findUniqueOrThrow({ where: { email: email }});
     // Create a couple habits
     await prisma.habit.createMany({
         data: [
-            { habitName: "Yoga" },
-            { habitName: "Cook dinner" },
-            { habitName: "Run" }
+            { userId: me.id, habitName: "Yoga" },
+            { userId: me.id, habitName: "Cook dinner" },
+            { userId: me.id, habitName: "Run" }
         ]
     });
 

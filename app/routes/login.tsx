@@ -1,11 +1,24 @@
 import { ActionFunction } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 
+import { createUserSession, login } from "~/models/user.server";
+
 export const action: ActionFunction = async({ request }) => {
     const form = await request.formData();
 
-    const email = form.get("email");
-    const password = form.get("password");
+    const email = form.get("email") as string;
+    const password = form.get("password") as string;
+
+    // TODO: validate input
+
+    const userId = await login(email, password);
+
+    if (!userId) {
+        // TODO: bad request handling
+        throw new Error("User does not exist");
+    }
+
+    return createUserSession(userId, "/habits");
 }
 
 
@@ -18,13 +31,13 @@ export default function LoginPage() {
             <h1>Login</h1>
             <Form method="post">
                 <div style={{display:"inline-block"}}>
-                    <p>
+                    <p >
                         <label>Email: </label>
-                        <input type="text" name="email"></input>
+                        <input type="text" name="email" style={{fontFamily: "Courier New, monospace", width: "200px"}}></input>
                     </p>
                     <p>
                         <label>Password: </label>
-                        <input type="text" name="password"></input>
+                        <input type="text" name="password" style={{fontFamily: "Courier New, monospace", width: "200px"}}></input>
                     </p>
                     <p>
                         <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Login</button>
