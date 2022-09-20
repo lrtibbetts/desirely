@@ -33,11 +33,11 @@ export default function LoginPage() {
                 <div style={{display:"inline-block"}}>
                     <p >
                         <label>Email: </label>
-                        <input type="text" name="email" style={{fontFamily: "Courier New, monospace", width: "200px"}}></input>
+                        <input type="text" name="email" style={{width: "200px"}}></input>
                     </p>
                     <p>
                         <label>Password: </label>
-                        <input type="text" name="password" style={{fontFamily: "Courier New, monospace", width: "200px"}}></input>
+                        <input type="text" name="password" style={{width: "200px"}}></input>
                     </p>
                     <p>
                         <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Login</button>
