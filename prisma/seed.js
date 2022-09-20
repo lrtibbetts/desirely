@@ -28,8 +28,18 @@ async function seed() {
     });
 
     // Create a couple habit entries
-    const yoga = await prisma.habit.findUniqueOrThrow({ where: { habitName: "Yoga"}});
-    const dinner = await prisma.habit.findUniqueOrThrow({ where: { habitName: "Cook dinner"}});
+    const yoga = await prisma.habit.findUniqueOrThrow({ 
+      where: { 
+        userId_habitName: {
+          userId: me.id,
+          habitName: "Yoga"
+        }}});
+    const dinner = await prisma.habit.findUniqueOrThrow({ 
+      where: { 
+        userId_habitName: {
+          userId: me.id,
+          habitName: "Cook dinner"
+        }}});
 
     const today = new Date();
     const tomorrow = new Date(today);

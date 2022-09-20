@@ -23,6 +23,7 @@ export const action: ActionFunction = async({ request }) => {
 
 
 // TOOD: move CSS to stylesheet
+// TODO: hide password input
 export default function LoginPage() {
     const actionData = useActionData();
 
