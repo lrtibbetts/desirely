@@ -4,7 +4,7 @@
 
 It is a made up word, and its intended meaning is *with desire*.
 
-The reason for naming a habit tracking app *desirely* is the belief that the habits we are pursuing ought to align with the *big desires we have for our lives*. This might sound obvious, but it is tremendously easy to pursue habits for the sake of outward appearance, or to keep up with our friends, or because the productivity zeitgeist tells us to.
+The habits we are pursuing ought to align with the *big desires we have for our lives*. This might sound obvious, but it is easy to instead pursue habits for the sake of outward appearance, or to keep up with our friends, or because of what the productivity zeitgeist tells us.
 
 ## What does desirely do?
 
