@@ -2,7 +2,7 @@ import { ActionFunction, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 
 import { createHabit } from "~/models/habit.server";
-import { requireUserId } from "~/models/user.server";
+import { requireUserId } from "~/models/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
     const userId = await requireUserId(request, "/login") as string;

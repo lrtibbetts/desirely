@@ -1,7 +1,8 @@
 import { ActionFunction } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 
-import { createUserSession, login } from "~/models/user.server";
+import { createUserSession } from "~/models/session.server";
+import { login } from "~/models/user.server";
 
 export const action: ActionFunction = async({ request }) => {
     const form = await request.formData();

@@ -1,7 +1,8 @@
 import { ActionArgs, ActionFunction, json, LoaderArgs } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
+import { getUserId, createUserSession } from "~/models/session.server";
 
-import { createUser, createUserSession, getUserByEmail, getUserId } from "~/models/user.server";
+import { createUser, getUserByEmail } from "~/models/user.server";
 
 export async function loader({ request }: LoaderArgs) {
     const userId = await getUserId(request);

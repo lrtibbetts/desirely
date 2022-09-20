@@ -4,7 +4,7 @@ import { Habit, getHabits, createHabitEntry, deleteHabitEntry } from "~/models/h
 import WeeklyView from "~/components/WeeklyView";
 
 import { serialize, deserialize } from "superjson";
-import { requireUserId } from "~/models/user.server";
+import { requireUserId } from "~/models/session.server";
 
 type LoaderData = {
     habits: Array<Habit>;
