@@ -38,6 +38,7 @@ function Document({children, title}: {children: React.ReactNode, title: string})
   )
 }
 
+// TODO: add per-route error boundaries
 export function ErrorBoundary({error}: {error: Error}) {
   console.log(error.message);
   return (

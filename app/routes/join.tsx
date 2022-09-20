@@ -1,5 +1,5 @@
 import { ActionArgs, ActionFunction, json, LoaderArgs } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import { getUserId, createUserSession } from "~/models/session.server";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
@@ -22,7 +22,7 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
     const userAlreadyExists = await getUserByEmail(email);
     if (userAlreadyExists) {
         // Handle
-        console.log("User already exists, please log in!");
+        console.log("User already exists, please log in");
     }
 
     const user = await createUser({email, firstName, lastName}, password);
@@ -59,6 +59,9 @@ export default function SignUpPage() {
                     <p>
                         <button type="submit">Sign up</button>
                     </p>
+                    <div style={{marginTop:"50px", fontSize: "small"}}>
+                        <Link to="/login">Log in instead</Link>
+                    </div>
                 </div>
             </Form>
         </div>

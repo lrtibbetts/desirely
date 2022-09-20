@@ -1,5 +1,5 @@
 import { ActionFunction } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 
 import { createUserSession } from "~/models/session.server";
 import { login } from "~/models/user.server";
@@ -25,6 +25,7 @@ export const action: ActionFunction = async({ request }) => {
 
 // TOOD: move CSS to stylesheet
 // TODO: hide password input
+// TODO: display requirements for email, password (length to start)
 export default function LoginPage() {
     const actionData = useActionData();
 
@@ -44,6 +45,9 @@ export default function LoginPage() {
                     <p>
                         <button type="submit">Login</button>
                     </p>
+                    <div style={{marginTop:"50px", fontSize: "small"}}>
+                        <Link to="/join">Sign up instead</Link>
+                    </div>
                 </div>
             </Form>
         </div>
