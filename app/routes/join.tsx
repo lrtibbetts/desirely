@@ -13,6 +13,8 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
 
     const email = form.get("email") as string;
     const password = form.get("password") as string;
+    const firstName = form.get("firstName") as string;
+    const lastName = form.get("lastName") as string;
 
     // TODO: validate email, password
 
@@ -22,7 +24,7 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
         console.log("User already exists, please log in!");
     }
 
-    const user = await createUser(email, password);
+    const user = await createUser({email, firstName, lastName}, password);
 
     return createUserSession(user.id, "/");
 }
@@ -46,7 +48,15 @@ export default function SignUpPage() {
                         <input type="text" name="password" style={{width: "200px"}}></input>
                     </p>
                     <p>
-                        <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Login</button>
+                        <label>First Name: </label>
+                        <input type="text" name="firstName" style={{width: "200px"}}></input>
+                    </p>
+                    <p>
+                        <label>Last Name: </label>
+                        <input type="text" name="lastName" style={{width: "200px"}}></input>
+                    </p>
+                    <p>
+                        <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Sign up</button>
                     </p>
                 </div>
             </Form>

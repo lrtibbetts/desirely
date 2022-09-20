@@ -12,9 +12,13 @@ async function seed() {
     const email = "lucilletibbetts@gmail.com";
     await prisma.user.createMany({
       data: [
-        { email: email, passwordHash: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u" }
+        { email: email,
+          passwordHash: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
+          firstName: "Lucy",
+          lastName: "Tibbetts",
+        }
       ]
-    })
+    });
 
     // Fetch user
     const me = await prisma.user.findUniqueOrThrow({ where: { email: email }});

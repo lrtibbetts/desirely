@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server"
 
+// TODO: separate files for user vs session
+
 const sessionSecretName = "SESSION_SECRET";
 const cookieName = "desirely_session";
 const userIdName = "userId";
@@ -11,20 +13,20 @@ type User = {
     id: string,
     email: string,
     passwordHash: string,
+    firstName: string,
+    lastName: string,
 }
 
 export async function getUserByEmail(email: User["email"]) {
     return prisma.user.findUnique({where: { email }});
 }
 
-export async function createUser(email: User["email"], password: string): Promise<User> {
+export async function createUser(user: Pick<User, "email" | "firstName" | "lastName">, password: string): Promise<User> {
     const passwordHash = await bcrypt.hash(password, 10);
+    const userData = {...user, passwordHash}
 
     return await prisma.user.create({
-        data: {
-            email,
-            passwordHash
-        }
+        data: userData
     });
 }
 
