@@ -2,6 +2,10 @@ button {
     font-family:'Courier New', Courier, monospace
 }
 
+input {
+    font-family:'Courier New', Courier, monospace
+}
+
 .squiggle {
     fill:none;
     stroke:black;

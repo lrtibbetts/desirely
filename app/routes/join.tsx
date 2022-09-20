@@ -57,7 +57,7 @@ export default function SignUpPage() {
                         <input type="text" name="lastName" style={{width: "200px"}}></input>
                     </p>
                     <p>
-                        <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Sign up</button>
+                        <button type="submit">Sign up</button>
                     </p>
                 </div>
             </Form>

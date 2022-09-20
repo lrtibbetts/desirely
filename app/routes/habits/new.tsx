@@ -11,7 +11,6 @@ export const action: ActionFunction = async ({ request }) => {
     const habitName = formData.get("name") as string;
 
     console.log(`Creating new habit ${habitName}`);
-    // TODO: use userId to create habit
     await createHabit({habitName, userId});
 
     return redirect("/habits");

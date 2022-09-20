@@ -42,7 +42,7 @@ export default function LoginPage() {
                         <input type="text" name="password" style={{width: "200px"}}></input>
                     </p>
                     <p>
-                        <button type="submit" style={{fontFamily: "Courier New, monospace"}}>Login</button>
+                        <button type="submit">Login</button>
                     </p>
                 </div>
             </Form>
