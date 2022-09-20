@@ -11,11 +11,11 @@ export type User = {
 }
 
 export async function getUserByEmail(email: User["email"]) {
-    return prisma.user.findUniqueOrThrow({where: { email }});
+    return prisma.user.findUnique({where: { email }});
 }
 
 export async function getUserById(id: User["id"]) {
-    return prisma.user.findUniqueOrThrow({where: { id }});
+    return prisma.user.findUnique({where: { id }});
 }
 
 export async function createUser(user: Pick<User, "email" | "firstName" | "lastName">, password: string): Promise<User> {
@@ -28,7 +28,7 @@ export async function createUser(user: Pick<User, "email" | "firstName" | "lastN
 }
 
 export async function login(email: User["email"], password: string) {
-    const user = await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUnique({
         where: { email },
     });
     if (!user) {

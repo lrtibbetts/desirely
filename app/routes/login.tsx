@@ -1,8 +1,13 @@
-import { ActionFunction } from "@remix-run/node";
+import { ActionFunction, json } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import { createUserSession } from "~/models/session.server";
 import { login } from "~/models/user.server";
+
+// TODO: other fields?
+function badRequest(error: string) {
+    return json(error, {status: 400});
+}
 
 export const action: ActionFunction = async({ request }) => {
     const form = await request.formData();
@@ -15,8 +20,8 @@ export const action: ActionFunction = async({ request }) => {
     const userId = await login(email, password);
 
     if (!userId) {
-        // TODO: bad request handling
-        throw new Error("User does not exist");
+        console.log("User does not exist");
+        return badRequest("User does not exist");
     }
 
     return createUserSession(userId, "/habits");
@@ -31,7 +36,7 @@ export default function LoginPage() {
 
     return(
         <div>
-            <h1>Login</h1>
+            <h1>Log in</h1>
             <Form method="post">
                 <div style={{display:"inline-block"}}>
                     <p >
@@ -43,7 +48,7 @@ export default function LoginPage() {
                         <input type="text" name="password" style={{width: "200px"}}></input>
                     </p>
                     <p>
-                        <button type="submit">Login</button>
+                        <button type="submit">Log in</button>
                     </p>
                     <div style={{marginTop:"50px", fontSize: "small"}}>
                         <Link to="/join">Sign up instead</Link>

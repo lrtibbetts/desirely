@@ -6,16 +6,8 @@ export default function Index() {
     <div style={{lineHeight: "1.25", textAlign: "center"}}>
         <h1>Desirely</h1>
         <div style={{display:"flex", alignItems: "center", flexDirection:"column"}}>
-            <Link
-                to="/login"
-                >
-                    Login
-            </Link>
-            <Link
-                to="/join"
-                >
-                    Sign up
-            </Link>
+            <Link to="/login">Log in</Link>
+            <Link to="/join">Sign up</Link>
         </div>
     </div>
   );
