@@ -12,7 +12,7 @@ export default function Index() {
                     Login
             </Link>
             <Link
-                to="/login"
+                to="/join"
                 >
                     Sign up
             </Link>

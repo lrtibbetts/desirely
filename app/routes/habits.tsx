@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { Habit, getHabits, createHabitEntry, deleteHabitEntry } from "~/models/habit.server"
 import WeeklyView from "~/components/WeeklyView";
@@ -11,12 +11,12 @@ type LoaderData = {
 }
 
 // TODO: abstract use of superjson serialize/deserialize into wrapper
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     const userId = await requireUserId(request, "/login") as string;
     return serialize({ habits: await getHabits(userId) });
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request }: ActionArgs) => {
     requireUserId(request, "/login");
 
     const formData = await request.formData();

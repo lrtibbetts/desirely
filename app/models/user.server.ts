@@ -8,15 +8,27 @@ const cookieName = "desirely_session";
 const userIdName = "userId";
 
 type User = {
+    id: string,
     email: string,
     passwordHash: string,
 }
 
-export async function createUser(user: User) {
-    await prisma.user.create({data: user});
+export async function getUserByEmail(email: User["email"]) {
+    return prisma.user.findUnique({where: { email }});
 }
 
-export async function login(email: string, password: string) {
+export async function createUser(email: User["email"], password: string): Promise<User> {
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    return await prisma.user.create({
+        data: {
+            email,
+            passwordHash
+        }
+    });
+}
+
+export async function login(email: User["email"], password: string) {
     const user = await prisma.user.findUniqueOrThrow({
         where: { email }
     });
@@ -53,7 +65,7 @@ const storage = createCookieSessionStorage({
     }
 })
 
-export async function createUserSession(userId: string, redirectTo: string) {
+export async function createUserSession(userId: User["id"], redirectTo: string) {
     const session = await storage.getSession();
     session.set(userIdName, userId);
     return redirect(redirectTo, {
@@ -67,13 +79,9 @@ export async function getUserSession(request: Request) {
     return storage.getSession(request.headers.get("Cookie"));
 }
 
-async function getUserId(request: Request) {
+export async function getUserId(request: Request) {
     const session = await getUserSession(request);
     const userId = session.get(userIdName);
-    
-    if (!userId || typeof userId !== "string") {
-        return null;
-    }
     return userId;
 }
 
