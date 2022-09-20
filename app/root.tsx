@@ -20,19 +20,40 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+function Document({children, title}: {children: React.ReactNode, title: string}) {
   return (
     <html lang="en">
       <head>
         <Meta />
+        <title>{title}</title>
         <Links />
       </head>
       <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "7%", marginLeft: "8%"}}>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
-  );
+  )
+}
+
+export function ErrorBoundary({error}: {error: Error}) {
+  console.log(error.message);
+  return (
+    <Document title="Oh no!">
+      <div>
+        <h1>Something went wrong...</h1>
+        <pre>{error.message}</pre>
+      </div>
+    </Document>
+  )
+}
+
+export default function App() {
+  return (
+    <Document title="Desirely">
+      <Outlet/>
+    </Document>
+  )
 }
