@@ -1,4 +1,4 @@
-import { ActionArgs, ActionFunction, json, LoaderArgs } from "@remix-run/node";
+import { ActionArgs, ActionFunction, json, LoaderArgs, redirect } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import InputFieldWithError from "~/components/InputFieldWithError";
@@ -8,6 +8,9 @@ import { ActionData, badRequest, emptyInputErrorString, validateEmail, validateP
 
 export async function loader({ request }: LoaderArgs) {
     const userId = await getUserId(request);
+    if (userId) {
+        return redirect("/habits");
+      }
     return json({});
 }
 

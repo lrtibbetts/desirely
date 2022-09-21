@@ -1,10 +1,18 @@
-import { ActionFunction } from "@remix-run/node";
+import { ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import InputFieldWithError from "~/components/InputFieldWithError";
-import { createUserSession } from "~/models/session.server";
+import { createUserSession, getUserId } from "~/models/session.server";
 import { login, LoginResult } from "~/models/user.server";
 import { ActionData, badRequest, validateEmail, validatePassword } from "~/utils";
+
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+    const userId = await getUserId(request);
+    if (userId) {
+      return redirect("/habits");
+    }
+    return {};
+  }
 
 interface LoginActionData extends ActionData {
     fieldErrors?: {
