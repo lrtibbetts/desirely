@@ -62,7 +62,7 @@ export default function HabitsPage() {
             <div>
                 <h3 style={{marginTop:"50px"}}>Week of {start} - {end}:</h3>
                 {habits.map((habit : Habit) => (
-                    <WeeklyView habit={habit} days={getDatesOfCurrentWeek()}/>
+                    <WeeklyView key={habit.habitName} habit={habit} days={getDatesOfCurrentWeek()}/>
                 ))}
             </div>
         </main>

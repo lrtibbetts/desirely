@@ -29,10 +29,10 @@ function Document({children, title}: {children: React.ReactNode, title: string})
         <Links />
       </head>
       <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "7%", marginLeft: "8%"}}>
-        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        {children}
       </body>
     </html>
   )
