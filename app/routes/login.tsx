@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import InputFieldWithError from "~/components/InputFieldWithError";
@@ -25,7 +25,7 @@ interface LoginActionData extends ActionData {
     }
 }
 
-export const action: ActionFunction = async({ request }) => {
+export const action: ActionFunction = async({ request }: ActionArgs) => {
     const form = await request.formData();
 
     const email = form.get("email") as string;

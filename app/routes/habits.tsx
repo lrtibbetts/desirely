@@ -57,7 +57,7 @@ export default function HabitsPage() {
 
     return (
         <main>
-            <h1>Hello, {firstName}!</h1>
+            <h1>hello, {firstName}!</h1>
             <Outlet/>
             <div>
                 <h3 style={{marginTop:"50px"}}>Week of {start} - {end}:</h3>

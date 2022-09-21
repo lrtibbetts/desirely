@@ -11,13 +11,14 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 }
 
 // TODO: move CSS to stylesheet
+// TODO: fix centering
 export default function Index() {
   return (
     <div style={{lineHeight: "1.25", textAlign: "center"}}>
-        <h1>Desirely</h1>
+        <h1>desirely</h1>
         <div style={{display:"flex", alignItems: "center", flexDirection:"column"}}>
-            <Link to="/login">Log in</Link>
-            <Link to="/join">Sign up</Link>
+            <Link to="/login">log in</Link>
+            <Link to="/join">sign up</Link>
         </div>
     </div>
   );

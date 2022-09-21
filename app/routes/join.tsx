@@ -1,4 +1,4 @@
-import { ActionArgs, ActionFunction, json, LoaderArgs, redirect } from "@remix-run/node";
+import { ActionArgs, ActionFunction, json, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import InputFieldWithError from "~/components/InputFieldWithError";
@@ -6,7 +6,7 @@ import { getUserId, createUserSession } from "~/models/session.server";
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { ActionData, badRequest, emptyInputErrorString, validateEmail, validatePassword } from "~/utils";
 
-export async function loader({ request }: LoaderArgs) {
+export const loader: LoaderFunction = async({ request }: LoaderArgs) => {
     const userId = await getUserId(request);
     if (userId) {
         return redirect("/habits");

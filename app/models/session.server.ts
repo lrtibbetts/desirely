@@ -1,10 +1,10 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, redirect, SessionStorage } from "@remix-run/node";
 
 import { User } from "~/models/user.server"
 
 const sessionSecretName = "SESSION_SECRET";
 const cookieName = "desirely_session";
-const userIdName = "userId";
+const userIdKey = "userId";
 
 const sessionSecret = process.env[sessionSecretName];
 if (!sessionSecret) {
@@ -12,7 +12,7 @@ if (!sessionSecret) {
 }
 
 // TODO: set NODE_ENV in production
-const storage = createCookieSessionStorage({
+const storage : SessionStorage = createCookieSessionStorage({
     cookie: {
         name: cookieName,
         secure: process.env.NODE_ENV === "production",
@@ -26,7 +26,7 @@ const storage = createCookieSessionStorage({
 
 export async function createUserSession(userId: User["id"], redirectTo: string) {
     const session = await storage.getSession();
-    session.set(userIdName, userId);
+    session.set(userIdKey, userId);
     return redirect(redirectTo, {
         headers: {
             "Set-Cookie": await storage.commitSession(session),
@@ -40,7 +40,7 @@ export async function getUserSession(request: Request) {
 
 export async function getUserId(request: Request) {
     const session = await getUserSession(request);
-    const userId = session.get(userIdName);
+    const userId = session.get(userIdKey);
     return userId;
 }
 
@@ -54,4 +54,13 @@ export async function requireUserId(request: Request, redirectTo: string)
               throw redirect(`/login?${searchParams}`);
         }
     return userId; 
+}
+
+export async function logout(request: Request) {
+    const session = await getUserSession(request);
+    return redirect("/", {
+        headers: {
+            "Set-Cookie": await storage.destroySession(session),
+          },
+    });
 }

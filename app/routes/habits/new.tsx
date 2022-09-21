@@ -17,6 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 // TODO: move inline CSS to stylesheet
+// TODO: error handling if habit already exists
 export default function NewHabit() {
     return(
         <Form method="post">

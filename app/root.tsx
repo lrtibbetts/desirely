@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import NavigationBar from "./components/NavigationBar";
 
 import sharedStylesheet from "./styles/shared.css";
 
@@ -28,10 +29,11 @@ function Document({children, title}: {children: React.ReactNode, title: string})
         <title>{title}</title>
         <Links />
       </head>
-      <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "7%", marginLeft: "8%"}}>
+      <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "2%", marginLeft: "8%"}}>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <NavigationBar/>
         {children}
       </body>
     </html>

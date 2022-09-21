@@ -1,8 +1,6 @@
-import { redirect } from "@remix-run/node";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server"
-import { getUserSession } from "./session.server";
 
 export type User = {
     id: string,
@@ -57,13 +55,4 @@ export async function login(email: User["email"], password: string) : Promise<Lo
 
     result = { userId: user.id }
     return result;
-}
-
-export async function logout(request: Request) {
-    const session = await getUserSession(request);
-    return redirect("/", {
-        headers: {
-            "Set-Cookie": await sessionStorage.destroySession(session),
-          },
-    });
 }
