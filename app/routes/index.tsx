@@ -1,4 +1,14 @@
+import { LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import { getUserId } from "~/models/session.server";
+
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  const userId = await getUserId(request);
+  if (userId) {
+    return redirect("/habits");
+  }
+  return {};
+}
 
 // TODO: move CSS to stylesheet
 export default function Index() {

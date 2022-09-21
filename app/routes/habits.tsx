@@ -16,6 +16,12 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     const userId = await requireUserId(request, "/login") as string;
     const user = await getUserById(userId);
+
+    if (!user) {
+         // TODO: handle user not found
+        throw new Error("No user")
+    }
+
     return serialize({
         habits: await getHabits(userId),
         firstName: user.firstName,
@@ -23,8 +29,6 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 }
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
-    requireUserId(request, "/login");
-
     const formData = await request.formData();
 
     const dateStr = formData.get("date") as string;
