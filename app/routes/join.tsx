@@ -55,8 +55,8 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
         return badRequest<ActionData>({ fieldErrors, fields });
     }
 
-    const userAlreadyExists = await getUserByEmail(email);
-    if (userAlreadyExists) {
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
         console.log("User already exists");
         return badRequest<ActionData>({error: "User already exists, please log in instead"});
     }

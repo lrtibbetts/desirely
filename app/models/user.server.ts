@@ -15,11 +15,11 @@ export type LoginResult = {
     userId?: string,
 }
 
-export async function getUserByEmail(email: User["email"]) {
+export async function getUserByEmail(email: User["email"]): Promise<User | null> {
     return prisma.user.findUnique({where: { email }});
 }
 
-export async function getUserById(id: User["id"]) {
+export async function getUserById(id: User["id"]): Promise<User | null> {
     return prisma.user.findUnique({where: { id }});
 }
 

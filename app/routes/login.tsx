@@ -14,6 +14,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     return {};
   }
 
+// TODO: fields really needed here? or just errors
 interface LoginActionData extends ActionData {
     fieldErrors?: {
         email: string | undefined,
