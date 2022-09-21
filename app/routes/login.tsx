@@ -2,7 +2,8 @@ import { ActionFunction, json } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 import { createUserSession } from "~/models/session.server";
-import { login } from "~/models/user.server";
+import { login, LoginResult } from "~/models/user.server";
+import { validateEmail, validatePassword } from "~/utils";
 
 type ActionData = {
     error?: string,
@@ -16,23 +17,8 @@ type ActionData = {
     }
 }
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-// TODO: other fields?
 function badRequest(data: ActionData) {
     return json(data, {status: 400});
-}
-
-function validateEmail(email: string): string | undefined {
-    if (email.toLowerCase().match(emailRegex) === null) {
-        return "Email is not valid";
-    }
-}
-
-function validatePassword(password: string): string | undefined {
-    if (password.length <= 6) {
-        return "Password is too short";
-    }
 }
 
 export const action: ActionFunction = async({ request }) => {
@@ -51,24 +37,23 @@ export const action: ActionFunction = async({ request }) => {
         return badRequest({ fieldErrors, fields });
     }
 
-    // TODO: distinguish between a) user doesn't exist, b) wrong pwd
-    const userId = await login(email, password);
+    const result : LoginResult = await login(email, password);
 
-    if (!userId) {
-        console.log("User does not exist");
-        return badRequest({error: "User does not exist"});
+    if (result.error) {
+        console.log(result.error);
+        return badRequest({error: result.error});
     }
 
-    return createUserSession(userId, "/habits");
+    const id = result.userId as string;
+    return createUserSession(id, "/habits");
 }
 
 
 // TOOD: move CSS to stylesheet
-// TODO: hide password input
-// TODO: display requirements for email, password (length to start)
 export default function LoginPage() {
     const actionData = useActionData<ActionData>();
 
+    // TODO: toggle for password visibility
     return(
         <div>
             <h1>Log in</h1>
@@ -93,7 +78,7 @@ export default function LoginPage() {
                     <p>
                         <label>Password:
                         <input 
-                            type="text" name="password" style={{width: "200px"}}
+                            type="password" name="password" style={{width: "200px"}}
                             aria-invalid={
                                 Boolean(actionData?.fieldErrors?.password) || undefined
                             }
@@ -106,10 +91,15 @@ export default function LoginPage() {
                                 {actionData.fieldErrors.password}
                             </p>) : null}
                     </p>
-                    <p>
+                    <div>
+                        {actionData?.error? (
+                            <p style={{fontSize: "small"}}>
+                                {actionData.error}
+                            </p>
+                        ) : null}
                         <button type="submit">Log in</button>
-                    </p>
-                    <div style={{marginTop:"50px", fontSize: "small"}}>
+                    </div>
+                    <div style={{marginTop:"20px", fontSize: "small"}}>
                         <Link to="/join">Sign up instead</Link>
                     </div>
                 </div>

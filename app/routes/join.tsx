@@ -59,7 +59,7 @@ export default function SignUpPage() {
                     <p>
                         <button type="submit">Sign up</button>
                     </p>
-                    <div style={{marginTop:"50px", fontSize: "small"}}>
+                    <div style={{marginTop:"20px", fontSize: "small"}}>
                         <Link to="/login">Log in instead</Link>
                     </div>
                 </div>

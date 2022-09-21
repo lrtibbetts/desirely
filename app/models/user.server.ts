@@ -10,6 +10,11 @@ export type User = {
     lastName: string,
 }
 
+export type LoginResult = {
+    error?: string,
+    userId?: string,
+}
+
 export async function getUserByEmail(email: User["email"]) {
     return prisma.user.findUnique({where: { email }});
 }
@@ -27,13 +32,15 @@ export async function createUser(user: Pick<User, "email" | "firstName" | "lastN
     });
 }
 
-export async function login(email: User["email"], password: string) {
+export async function login(email: User["email"], password: string) : Promise<LoginResult> {
+    let result : LoginResult;
+
     const user = await prisma.user.findUnique({
         where: { email },
     });
     if (!user) {
-        // TODO
-        return null;
+        result = { error: `No user found with email ${email}`}
+        return result;
     }
 
     const correctPassword = await bcrypt.compare(
@@ -41,7 +48,10 @@ export async function login(email: User["email"], password: string) {
         user.passwordHash
     );
     if (!correctPassword) {
-        return null;
+        result = { error: "Incorrect password" }
+        return result;
     }
-    return user.id; // TODO: need anything other than id? probably return object later
+
+    result = { userId: user.id }
+    return result;
 }
