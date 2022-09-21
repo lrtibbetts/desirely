@@ -51,18 +51,32 @@ export default function HabitsPage() {
     const data = useLoaderData();
     const { habits, firstName }  = deserialize(data) as LoaderData;
     
-    const today = new Intl.DateTimeFormat('default', { dateStyle: 'full'}).format(new Date());
+    const dates = getDatesOfCurrentWeek();
+    const start = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[0]);
+    const end = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[6]);
 
     return (
         <main>
             <h1>Hello, {firstName}!</h1>
-            <h2>It is {today}. </h2>
             <Outlet/>
             <div>
+                <h3 style={{marginTop:"50px"}}>Week of {start} - {end}:</h3>
                 {habits.map((habit : Habit) => (
-                    WeeklyView(habit)
+                    <WeeklyView habit={habit} days={getDatesOfCurrentWeek()}/>
                 ))}
             </div>
         </main>
     )
+}
+
+function getDatesOfCurrentWeek() : Array<Date> {
+    let dates = new Array<Date>();
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); // Will be comparing just by date, not time
+    const monday = today.getDate() - today.getDay();
+    for (let i = 0; i < 7; i++) { 
+        const day = new Date(today.setDate(monday + i));
+        dates.push(day);
+    }
+    return dates;
 }

@@ -4,22 +4,22 @@ import rect from "~/assets/rect.svg";
 
 type DailyViewProps = {
     date: Date;
-    habitId: bigint;
+    habitId: string;
     completed: boolean;
     dayAbbreviation: string;
 }
 
-export default function DailyView(props: DailyViewProps) {
+export default function DailyView({date, habitId, completed, dayAbbreviation}: DailyViewProps) {
     const [isAnimating, setIsAnimating] = useState(false);
-    const [isVisible, setIsVisible] = useState(props.completed);
+    const [isVisible, setIsVisible] = useState(completed);
 
     const transition = useTransition();
 
     return(
         <Form className="day-container" method="post">
-            <input type="hidden" name="completed" value={props.completed.toString()}/>
-            <input type="hidden" name="date" value={props.date.toISOString()}/>
-            <input type="hidden" name="id" value={props.habitId.toString()}/>
+            <input type="hidden" name="completed" value={completed.toString()}/>
+            <input type="hidden" name="date" value={date.toISOString()}/>
+            <input type="hidden" name="id" value={habitId.toString()}/>
             <button className="day-button" 
                     type="submit"
                     disabled={transition.state != "idle"}
@@ -32,7 +32,7 @@ export default function DailyView(props: DailyViewProps) {
                 </span>
                 <span className="day-rect"><img src={rect}/></span>
             </button>
-            <div>{props.dayAbbreviation}</div>
+            <div>{dayAbbreviation}</div>
         </Form>
     );
 }
@@ -42,11 +42,11 @@ type SquiggleProps = {
     animating: boolean;
 }
 
-function Squiggle(props: SquiggleProps) {
+function Squiggle({visible, animating}: SquiggleProps) {
     return(
-        props.visible ?
+        visible ?
         <svg
-            className={props.animating ? "squiggle animating" : "squiggle"}
+            className={animating ? "squiggle animating" : "squiggle"}
             width="12.969591mm"
             height="13.527871mm"
             viewBox="0 0 12.969591 13.527871"
