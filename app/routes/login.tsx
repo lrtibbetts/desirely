@@ -3,7 +3,7 @@ import { Form, Link, useActionData } from "@remix-run/react";
 
 import { createUserSession } from "~/models/session.server";
 import { login, LoginResult } from "~/models/user.server";
-import { validateEmail, validatePassword } from "~/utils";
+import { badRequest, validateEmail, validatePassword } from "~/utils";
 
 type ActionData = {
     error?: string,
@@ -15,10 +15,6 @@ type ActionData = {
         email: string | undefined,
         password: string | undefined,
     }
-}
-
-function badRequest(data: ActionData) {
-    return json(data, {status: 400});
 }
 
 export const action: ActionFunction = async({ request }) => {
@@ -34,20 +30,19 @@ export const action: ActionFunction = async({ request }) => {
     const fields = { email, password }
     if (Object.values(fieldErrors).some(Boolean)) {
         console.log({fieldErrors, fields})
-        return badRequest({ fieldErrors, fields });
+        return badRequest<ActionData>({ fieldErrors, fields });
     }
 
     const result : LoginResult = await login(email, password);
 
     if (result.error) {
         console.log(result.error);
-        return badRequest({error: result.error});
+        return badRequest<ActionData>({error: result.error});
     }
 
     const id = result.userId as string;
     return createUserSession(id, "/habits");
 }
-
 
 // TOOD: move CSS to stylesheet
 export default function LoginPage() {
@@ -63,9 +58,7 @@ export default function LoginPage() {
                         <label>Email:
                             <input 
                                 type="text" name="email" style={{width: "200px"}}
-                                aria-invalid={
-                                    Boolean(actionData?.fieldErrors?.email) || undefined
-                                }
+                                aria-invalid={actionData?.fieldErrors?.email ? true : undefined}
                                 aria-errormessage={
                                     actionData?.fieldErrors?.email ? "email-error" : undefined
                                 }/>
@@ -79,9 +72,7 @@ export default function LoginPage() {
                         <label>Password:
                         <input 
                             type="password" name="password" style={{width: "200px"}}
-                            aria-invalid={
-                                Boolean(actionData?.fieldErrors?.password) || undefined
-                            }
+                            aria-invalid={actionData?.fieldErrors?.password ? true : undefined}
                             aria-errormessage={
                                 actionData?.fieldErrors?.email ? "password-error" : undefined
                             }/>

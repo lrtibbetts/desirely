@@ -1,12 +1,35 @@
 import { ActionArgs, ActionFunction, json, LoaderArgs } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
-import { getUserId, createUserSession } from "~/models/session.server";
 
+import InputFieldWithError from "~/components/InputFieldWithError";
+import { getUserId, createUserSession } from "~/models/session.server";
 import { createUser, getUserByEmail } from "~/models/user.server";
+import { ActionData, badRequest, emptyInputErrorString, validateEmail, validatePassword } from "~/utils";
 
 export async function loader({ request }: LoaderArgs) {
     const userId = await getUserId(request);
     return json({});
+}
+
+interface JoinActionData extends ActionData {
+    fieldErrors? : {
+        email: string | undefined,
+        password: string | undefined,
+        firstName: string | undefined,
+        lastName: string | undefined,
+    },
+    fields?: {
+        email: string | undefined,
+        password: string | undefined,
+        firstName: string | undefined,
+        lastName: string | undefined,
+    }
+}
+
+function validateName(name: string) {
+    if (name.length === 0) {
+        return emptyInputErrorString;
+    }
 }
 
 export const action: ActionFunction = async({ request }: ActionArgs) => {
@@ -17,12 +40,22 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
     const firstName = form.get("firstName") as string;
     const lastName = form.get("lastName") as string;
 
-    // TODO: validate email, password
+    const fieldErrors = {
+        email: validateEmail(email),
+        password: validatePassword(password),
+        firstName: validateName(firstName),
+        lastName: validateName(lastName),
+    }
+    const fields = { email, password, firstName, lastName }
+    if (Object.values(fieldErrors).some(Boolean)) {
+        console.log({fieldErrors, fields})
+        return badRequest<ActionData>({ fieldErrors, fields });
+    }
 
     const userAlreadyExists = await getUserByEmail(email);
     if (userAlreadyExists) {
-        // Handle
-        console.log("User already exists, please log in");
+        console.log("User already exists");
+        return badRequest<ActionData>({error: "User already exists, please log in instead"});
     }
 
     const user = await createUser({email, firstName, lastName}, password);
@@ -33,29 +66,30 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
 
 // TODO: password confirmation
 export default function SignUpPage() {
-    const actionData = useActionData();
+    const actionData = useActionData<JoinActionData>() as JoinActionData;
     
     return(
         <div>
             <h1>Sign up</h1>
             <Form method="post">
                 <div style={{display:"inline-block"}}>
-                    <p >
-                        <label>Email: </label>
-                        <input type="text" name="email" style={{width: "200px"}}></input>
-                    </p>
-                    <p>
-                        <label>Password: </label>
-                        <input type="text" name="password" style={{width: "200px"}}></input>
-                    </p>
-                    <p>
-                        <label>First Name: </label>
-                        <input type="text" name="firstName" style={{width: "200px"}}></input>
-                    </p>
-                    <p>
-                        <label>Last Name: </label>
-                        <input type="text" name="lastName" style={{width: "200px"}}></input>
-                    </p>
+                    <InputFieldWithError<JoinActionData>
+                        actionData={actionData}
+                        label="Email: "
+                        fieldName="email"/>
+                    <InputFieldWithError<JoinActionData>
+                        actionData={actionData}
+                        label="Password: "
+                        fieldName="password"
+                        isPassword={true}/>
+                    <InputFieldWithError<JoinActionData>
+                        actionData={actionData}
+                        label="First Name: "
+                        fieldName="firstName"/>
+                    <InputFieldWithError<JoinActionData>
+                        actionData={actionData}
+                        label="Last Name: "
+                        fieldName="lastName"/>
                     <p>
                         <button type="submit">Sign up</button>
                     </p>
