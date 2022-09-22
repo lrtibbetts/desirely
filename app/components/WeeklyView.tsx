@@ -7,13 +7,14 @@ type WeeklyViewProps = {
     days: Array<Date>,
 }
 
-export default function WeeklyView({ habit, days} : WeeklyViewProps) {
+export default function WeeklyView({ habit, days } : WeeklyViewProps) {
     const dayAbbreviations : Array<string> = [
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
     
     // TODO: move inline CSS to stylesheet
     // TODO: positioning, hover for x
+    // TODO: make habit editable
     return (
         <div key={habit.habitName}>
             <div style={{marginTop: "25px", display: "flex"}}>

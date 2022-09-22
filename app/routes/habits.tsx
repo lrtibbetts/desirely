@@ -6,6 +6,8 @@ import WeeklyView from "~/components/WeeklyView";
 import { serialize, deserialize } from "superjson";
 import { requireUserId } from "~/models/session.server";
 import { getUserById, User } from "~/models/user.server";
+import { useState } from "react";
+import { useEffect } from "react";
 
 type LoaderData = {
     habits: Array<Habit>;
@@ -59,16 +61,31 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     }
 }
 
+// TODO: don't lose date focus on page refresh - route params?
 export default function HabitsPage() {
     const data = useLoaderData();
     const { habits, firstName }  = deserialize(data) as LoaderData;
-    
-    const dates = getDatesOfCurrentWeek();
-    const start = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[0]);
-    const end = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[6]);
 
     const left = "<";
     const right = ">";
+    
+    const [monday, setMonday] = useState(getMonday());
+
+    const sunday = addDays(monday, 6);
+    const dates = getDatesOfWeek(monday);
+
+    const mondayStr: string = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(monday);
+    const sundayStr: string = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(sunday);
+
+    const lastWeek = () => {
+        const lastMonday = addDays(monday, -7);
+        setMonday(lastMonday);
+    }
+
+    const nextWeek = () => {
+        const nextMonday = addDays(monday, 7);
+        setMonday(nextMonday);
+    }
 
     // TODO: positioning of < >
     return (
@@ -76,24 +93,35 @@ export default function HabitsPage() {
             <h1>hello, {firstName}!</h1>
             <Outlet/>
             <div>
-                <h3 style={{marginTop:"50px"}}>Week of {start} - {end}:</h3>
-                <h3 style={{marginTop:"20px"}}> {left} {right}</h3>
+                <h3 style={{marginTop:"50px"}}>Week of {mondayStr} - {sundayStr}:</h3>
+                <button onClick={lastWeek}> {left} </button>
+                <button onClick={nextWeek}> {right} </button>
                 {habits.map((habit : Habit) => (
-                    <WeeklyView key={habit.habitName} habit={habit} days={getDatesOfCurrentWeek()}/>
+                        <WeeklyView key={habit.habitName} habit={habit} days={dates}/>
                 ))}
             </div>
         </main>
     )
 }
 
-function getDatesOfCurrentWeek() : Array<Date> {
+function addDays(date: Date, numDays: number): Date {
+    let result = new Date(date);
+    result.setDate(result.getDate() + numDays);
+    return result;
+}
+
+function getDatesOfWeek(monday: Date) : Array<Date> {
     let dates = new Array<Date>();
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0); // Will be comparing just by date, not time
-    const monday = today.getDate() - today.getDay();
-    for (let i = 1; i <= 7; i++) { 
-        const day = new Date(today.setDate(monday + i));
+    for (let i = 0; i < 7; i++) { 
+        let day = addDays(monday, i);
+        day.setUTCHours(0, 0, 0, 0);
         dates.push(day);
     }
     return dates;
+}
+
+function getMonday(): Date {
+    let result = new Date();
+    result.setDate(result.getDate() - result.getDay() + 1)
+    return result;
 }
