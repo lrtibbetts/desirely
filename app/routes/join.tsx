@@ -75,7 +75,7 @@ export default function SignUpPage() {
         <div>
             <h1>Sign up</h1>
             <Form method="post">
-                <div style={{display:"inline-block"}}>
+                <div>
                     <InputFieldWithError<JoinActionData>
                         actionData={actionData}
                         label="Email: "
@@ -96,7 +96,7 @@ export default function SignUpPage() {
                     <p>
                         <button type="submit">Sign up</button>
                     </p>
-                    <div style={{marginTop:"20px", fontSize: "small"}}>
+                    <div style={{fontSize: "small"}}>
                         <Link to="/login">Log in instead</Link>
                     </div>
                 </div>

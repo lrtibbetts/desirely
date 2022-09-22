@@ -14,10 +14,14 @@ interface NewHabitActionData extends ActionData {
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
     const userId = await getUserId(request);
-    console.log(userId);
 
     const formData = await request.formData();
     const habitName = formData.get("habitName") as string;
+
+    if (habitName.length === 0) {
+        const fieldErrors = { habitName: "Please enter a name for your new habit" };
+        return badRequest<NewHabitActionData>({fieldErrors});
+    }
 
     const existingHabit = await getHabitByUserIdHabitName(userId, habitName);
     if (existingHabit) {
@@ -34,19 +38,16 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 }
 
 // TODO: move inline CSS to stylesheet
-// TODO: error handling if habit already exists
 export default function NewHabit() {
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
-        <Form method="post">
-            <div>
-                <InputFieldWithError
-                    actionData={actionData}
-                    label="Name "
-                    fieldName="habitName"/>
-                <p style={{display:"inline-block"}}>
-                    <button type="submit">Create Habit</button>
-                </p>
+        <Form method="post" style={{display: "flex"}}>
+            <InputFieldWithError
+                actionData={actionData}
+                label="Name: "
+                fieldName="habitName"/>
+            <div className="grow" style={{marginLeft: "15px"}}>
+                <button type="submit">Create Habit</button>
             </div>
         </Form>
     );

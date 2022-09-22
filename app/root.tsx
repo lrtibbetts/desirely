@@ -26,8 +26,8 @@ function Document({children, title}: {children: React.ReactNode, title: string})
     <html lang="en">
       <head>
         <Meta />
-        <title>{title}</title>
         <Links />
+        <title>{title}</title>
       </head>
       <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "2%", marginLeft: "8%"}}>
         <ScrollRestoration />

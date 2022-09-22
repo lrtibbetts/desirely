@@ -30,7 +30,7 @@ export default function DailyView({date, habitId, completed, dayAbbreviation}: D
                 <span>
                     <Squiggle visible={isVisible} animating={isAnimating}/>
                 </span>
-                <span className="day-rect"><img src={rect}/></span>
+                <span className="grow"><img src={rect}/></span>
             </button>
             <div>{dayAbbreviation}</div>
         </Form>

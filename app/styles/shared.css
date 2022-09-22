@@ -1,5 +1,6 @@
 button {
-    font-family:'Courier New', Courier, monospace
+    font-family:'Courier New', Courier, monospace;
+    background-color: transparent;
 }
 
 input {
@@ -44,7 +45,6 @@ input {
     padding: 0px;
 }
 
-.day-rect :hover {
+.grow :hover {
     transform: scale(1.1);
-    transition: ease 200ms;
 }
