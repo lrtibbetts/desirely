@@ -14,7 +14,7 @@ export type HabitEntry = {
 }
 
 // TODO: standardize on param types
-
+// TODO: optimize - don't fetch all habits right away
 export async function getHabits(userId: User["id"]): Promise<Array<Habit>> {
     const habits : Array<Habit> = await prisma.habit.findMany({
         where: { userId: userId },

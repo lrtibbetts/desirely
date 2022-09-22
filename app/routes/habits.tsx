@@ -67,12 +67,17 @@ export default function HabitsPage() {
     const start = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[0]);
     const end = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(dates[6]);
 
+    const left = "<";
+    const right = ">";
+
+    // TODO: positioning of < >
     return (
         <main>
             <h1>hello, {firstName}!</h1>
             <Outlet/>
             <div>
                 <h3 style={{marginTop:"50px"}}>Week of {start} - {end}:</h3>
+                <h3 style={{marginTop:"20px"}}> {left} {right}</h3>
                 {habits.map((habit : Habit) => (
                     <WeeklyView key={habit.habitName} habit={habit} days={getDatesOfCurrentWeek()}/>
                 ))}

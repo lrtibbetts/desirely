@@ -1,5 +1,6 @@
 import { ActionArgs, ActionFunction, redirect } from "@remix-run/node";
-import { Form, Link, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import { MutableRefObject, Ref, useEffect, useRef } from "react";
 import InputFieldWithError from "~/components/InputFieldWithError";
 
 import { createHabit, getHabitByUserIdHabitName } from "~/models/habit.server";
@@ -40,9 +41,18 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 // TODO: move inline CSS to stylesheet
 // TODO: replace x icon
 export default function NewHabit() {
+    const transition = useTransition();
+    const formRef = useRef() as MutableRefObject<HTMLFormElement>;
+
+    useEffect(() => {
+        if (transition.state !== "idle") {
+            formRef.current?.reset();
+        }
+    }), [transition.state]
+
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
-        <Form method="post" style={{display: "flex"}}>
+        <Form ref={formRef} replace method="post"  style={{display: "flex"}}>
             <InputFieldWithError
                 actionData={actionData}
                 label="Name: "
