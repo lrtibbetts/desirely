@@ -1,5 +1,5 @@
 import { ActionArgs, ActionFunction, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import InputFieldWithError from "~/components/InputFieldWithError";
 
 import { createHabit, getHabitByUserIdHabitName } from "~/models/habit.server";
@@ -38,6 +38,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 }
 
 // TODO: move inline CSS to stylesheet
+// TODO: replace x icon
 export default function NewHabit() {
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
@@ -48,6 +49,9 @@ export default function NewHabit() {
                 fieldName="habitName"/>
             <div className="grow" style={{marginLeft: "15px"}}>
                 <button type="submit">Create Habit</button>
+            </div>
+            <div className="grow-text">
+            <Link to="/habits" type="get" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
             </div>
         </Form>
     );
