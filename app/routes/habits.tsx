@@ -86,7 +86,7 @@ function getDatesOfCurrentWeek() : Array<Date> {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Will be comparing just by date, not time
     const monday = today.getDate() - today.getDay();
-    for (let i = 0; i < 7; i++) { 
+    for (let i = 1; i <= 7; i++) { 
         const day = new Date(today.setDate(monday + i));
         dates.push(day);
     }
