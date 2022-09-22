@@ -34,7 +34,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     console.log(`Creating new habit ${habitName}`);
     await createHabit({habitName, userId});
 
-    return redirect("/habits");
+    return redirect("/habits/new");
 }
 
 // TODO: move inline CSS to stylesheet
