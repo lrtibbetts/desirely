@@ -1,5 +1,5 @@
-import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
+import { Outlet, useLoaderData, useMatches } from "@remix-run/react";
 import { Habit, getHabits, createHabitEntry, deleteHabitEntry, deleteHabit } from "~/models/habit.server"
 import WeeklyView from "~/components/WeeklyView";
 
@@ -28,6 +28,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     });
 }
 
+// TODO: path shouldn't change on action
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
     const formData = await request.formData();
 
