@@ -1,4 +1,4 @@
-import { Form, useTransition } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { Habit } from "~/models/habit.server";
 import DailyView from "./DailyView";
 
@@ -11,8 +11,6 @@ export default function WeeklyView({ habit, days} : WeeklyViewProps) {
     const dayAbbreviations : Array<string> = [
         "M", "T", "W", "Th", "F", "S", "Su"
     ];
-
-    const transition = useTransition();
     
     // TODO: move inline CSS to stylesheet
     // TODO: positioning, hover for x
@@ -22,7 +20,7 @@ export default function WeeklyView({ habit, days} : WeeklyViewProps) {
                 <Form method="post">
                     <input type="hidden" name="action" value="delete"></input>
                     <input type="hidden" name="id" value={habit.id.toString()}/>
-                    <button type="submit" className="day-button" disabled={transition.state != "idle"}>
+                    <button type="submit" className="day-button">
                         <h3>x</h3>
                     </button>
                 </Form>
