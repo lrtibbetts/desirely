@@ -17,6 +17,7 @@ export default function DailyView({date, habitId, completed, dayAbbreviation}: D
 
     return(
         <Form className="day-container" method="post">
+            <input type="hidden" name="action" value="updateEntry"/>
             <input type="hidden" name="completed" value={completed.toString()}/>
             <input type="hidden" name="date" value={date.toISOString()}/>
             <input type="hidden" name="id" value={habitId.toString()}/>

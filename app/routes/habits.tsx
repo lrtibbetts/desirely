@@ -1,6 +1,6 @@
 import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { Habit, getHabits, createHabitEntry, deleteHabitEntry } from "~/models/habit.server"
+import { Habit, getHabits, createHabitEntry, deleteHabitEntry, deleteHabit } from "~/models/habit.server"
 import WeeklyView from "~/components/WeeklyView";
 
 import { serialize, deserialize } from "superjson";
@@ -31,20 +31,31 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
     const formData = await request.formData();
 
-    const dateStr = formData.get("date") as string;
+    const action = formData.get("action") as string;
     const habitId = formData.get("id") as string;
-    const completed = formData.get("completed") as string;
 
-    const entryDate = new Date(dateStr);
+    switch (action) {
+        case "updateEntry":
+            const dateStr = formData.get("date") as string;
+            const completed = formData.get("completed") as string;
+        
+            const entryDate = new Date(dateStr);
+        
+            if (!(completed === "true")) {
+                await createHabitEntry({habitId, entryDate});
+            } else {
+                // TODO: erasing animation?
+                await deleteHabitEntry(habitId, entryDate);
+            }
 
-    if (!(completed === "true")) {
-        await createHabitEntry({habitId, entryDate});
-    } else {
-        // TODO: erasing animation?
-        await deleteHabitEntry(habitId, entryDate);
+            return null;
+        case "delete":
+            await deleteHabit(habitId);
+            return null;
+        default:
+            console.log(`Unknown action: ${action}`);
+            return null;
     }
-
-    return null;
 }
 
 export default function HabitsPage() {

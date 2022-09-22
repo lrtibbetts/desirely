@@ -13,6 +13,8 @@ export type HabitEntry = {
     entryDate: Date,
 }
 
+// TODO: standardize on param types
+
 export async function getHabits(userId: User["id"]): Promise<Array<Habit>> {
     const habits : Array<Habit> = await prisma.habit.findMany({
         where: { userId: userId },
@@ -53,4 +55,8 @@ export async function deleteHabitEntry(habitId: string, entryDate: Date) {
             entryDate: entryDate,
         }
     });
+}
+
+export async function deleteHabit(habitId: Habit["id"]) {
+    await prisma.habit.delete({where: { id: habitId}});
 }

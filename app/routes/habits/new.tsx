@@ -51,7 +51,7 @@ export default function NewHabit() {
                 <button type="submit">Create Habit</button>
             </div>
             <div className="grow-text">
-            <Link to="/habits" type="get" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
+            <Link to="/habits" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
             </div>
         </Form>
     );
