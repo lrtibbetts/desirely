@@ -1,17 +1,27 @@
-import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { Habit, getHabits, createHabitEntry, deleteHabitEntry, deleteHabit } from "~/models/habit.server"
-import WeeklyView from "~/components/WeeklyView";
-
-import { serialize, deserialize } from "superjson";
-import { requireUserId } from "~/models/session.server";
-import { getUserById, User } from "~/models/user.server";
 import { useState } from "react";
+import { serialize, deserialize } from "superjson";
+
+import { Habit, getHabits, createHabitEntry, deleteHabitEntry, deleteHabit, getHabitByUserIdHabitName, createHabit } from "~/models/habit.server";
+import { getUserId, requireUserId } from "~/models/session.server";
+import { getUserById, User } from "~/models/user.server";
+import { ActionData, badRequest } from "~/utils";
+import WeeklyView from "~/components/WeeklyView";
 
 type LoaderData = {
     habits: Array<Habit>;
     firstName: User["firstName"],
 }
+
+interface NewHabitActionData extends ActionData {
+    fieldErrors?: {
+        habitName: string,
+    }
+}
+
+const left = "<";
+const right = ">";
 
 // TODO: abstract use of superjson serialize/deserialize into wrapper
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
@@ -32,12 +42,14 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 // TODO: path shouldn't change on action
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
     const formData = await request.formData();
+    const userId = await getUserId(request);
 
     const action = formData.get("action") as string;
-    const habitId = formData.get("id") as string;
+    let habitId;
 
     switch (action) {
         case "updateEntry":
+            habitId = formData.get("id") as string;
             const dateStr = formData.get("date") as string;
             const completed = formData.get("completed") as string;
         
@@ -51,7 +63,28 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
             }
 
             return null;
+        case "new":
+            const habitName = formData.get("habitName") as string;
+
+            if (habitName.length === 0) {
+                const fieldErrors = { habitName: "Please enter a name for your new habit" };
+                return badRequest<NewHabitActionData>({fieldErrors});
+            }
+        
+            const existingHabit = await getHabitByUserIdHabitName(userId, habitName);
+            if (existingHabit) {
+                const fieldErrors = {
+                    habitName: `${habitName} already exists`,
+                }
+                return badRequest<NewHabitActionData>({fieldErrors});
+            }
+        
+            console.log(`Creating new habit ${habitName}`);
+            await createHabit({habitName, userId});
+
+            return null;
         case "delete":
+            habitId = formData.get("id") as string;
             await deleteHabit(habitId);
             return null;
         default:
@@ -64,26 +97,15 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 export default function HabitsPage() {
     const data = useLoaderData();
     const { habits, firstName }  = deserialize(data) as LoaderData;
-
-    const left = "<";
-    const right = ">";
     
-    const [monday, setMonday] = useState(getMonday());
-
-    const sunday = addDays(monday, 6);
-    const dates = getDatesOfWeek(monday);
-
-    const mondayStr: string = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(monday);
-    const sundayStr: string = new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(sunday);
+    const [monday, setMonday] = useState(new BetterDate().getMonday());
 
     const lastWeek = () => {
-        const lastMonday = addDays(monday, -7);
-        setMonday(lastMonday);
+        setMonday(monday.addDays(-7));
     }
 
     const nextWeek = () => {
-        const nextMonday = addDays(monday, 7);
-        setMonday(nextMonday);
+        setMonday(monday.addDays(7));
     }
 
     // TODO: positioning of < >
@@ -93,36 +115,42 @@ export default function HabitsPage() {
             <h1>hello, {firstName}!</h1>
             <Outlet/>
             <div>
-                <h3 style={{marginTop:"50px"}}>Week of {mondayStr} - {sundayStr}:</h3>
+                <h3 style={{marginTop:"50px"}}>Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
                 <button onClick={lastWeek}> {left} </button>
                 <button onClick={nextWeek}> {right} </button>
                 {habits.map((habit : Habit) => (
-                        <WeeklyView key={habit.habitName} habit={habit} days={dates}/>
+                        <WeeklyView key={habit.habitName} habit={habit} days={monday.getDatesOfWeek()}/>
                 ))}
             </div>
         </main>
     )
 }
 
-function addDays(date: Date, numDays: number): Date {
-    let result = new Date(date);
-    result.setDate(result.getDate() + numDays);
-    return result;
-}
-
-function getDatesOfWeek(monday: Date) : Array<Date> {
-    let dates = new Array<Date>();
-    for (let i = 0; i < 7; i++) { 
-        let day = addDays(monday, i);
-        day.setUTCHours(0, 0, 0, 0);
-        dates.push(day);
+class BetterDate extends Date {
+    addDays(numDays: number): BetterDate {
+        let result = new BetterDate(this);
+        result.setDate(result.getDate() + numDays);
+        return result;
     }
-    return dates;
-}
 
-// FIXME: will be wrong Monday on Sunday
-function getMonday(): Date {
-    let result = new Date();
-    result.setDate(result.getDate() - result.getDay() + 1)
-    return result;
+    toString(): string {
+        return new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(this);
+    }
+
+    getDatesOfWeek() : Array<BetterDate> {
+        let dates = new Array<BetterDate>();
+        for (let i = 0; i < 7; i++) { 
+            let day = this.addDays(i);
+            day.setUTCHours(0, 0, 0, 0);
+            dates.push(day);
+        }
+        return dates;
+    }
+
+    // FIXME: will be wrong Monday on Sunday
+    getMonday(): BetterDate {
+        let result = new BetterDate();
+        result.setDate(result.getDate() - result.getDay() + 1)
+        return result;
+    }
 }
