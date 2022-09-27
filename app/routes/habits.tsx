@@ -88,6 +88,7 @@ export default function HabitsPage() {
     }
 
     // TODO: positioning of < >
+    // TODO: only show > if not on current week (?)
     return (
         <main>
             <h1>hello, {firstName}!</h1>
