@@ -7,7 +7,6 @@ import { serialize, deserialize } from "superjson";
 import { requireUserId } from "~/models/session.server";
 import { getUserById, User } from "~/models/user.server";
 import { useState } from "react";
-import { useEffect } from "react";
 
 type LoaderData = {
     habits: Array<Habit>;
