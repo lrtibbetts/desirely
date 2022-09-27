@@ -7,6 +7,7 @@ import { Habit, getHabits, createHabitEntry, deleteHabitEntry, deleteHabit, getH
 import { getUserId, requireUserId } from "~/models/session.server";
 import { getUserById, User } from "~/models/user.server";
 import { ActionData, badRequest } from "~/utils";
+import { BetterDate } from "~/types/BetterDate";
 import WeeklyView from "~/components/WeeklyView";
 
 type LoaderData = {
@@ -119,38 +120,9 @@ export default function HabitsPage() {
                 <button onClick={lastWeek}> {left} </button>
                 <button onClick={nextWeek}> {right} </button>
                 {habits.map((habit : Habit) => (
-                        <WeeklyView key={habit.habitName} habit={habit} days={monday.getDatesOfWeek()}/>
+                    <WeeklyView key={habit.habitName} habit={habit} days={monday.getDatesOfWeek()}/>
                 ))}
             </div>
         </main>
     )
-}
-
-class BetterDate extends Date {
-    addDays(numDays: number): BetterDate {
-        let result = new BetterDate(this);
-        result.setDate(result.getDate() + numDays);
-        return result;
-    }
-
-    toString(): string {
-        return new Intl.DateTimeFormat('default', { dateStyle: 'short'}).format(this);
-    }
-
-    getDatesOfWeek() : Array<BetterDate> {
-        let dates = new Array<BetterDate>();
-        for (let i = 0; i < 7; i++) { 
-            let day = this.addDays(i);
-            day.setUTCHours(0, 0, 0, 0);
-            dates.push(day);
-        }
-        return dates;
-    }
-
-    // FIXME: will be wrong Monday on Sunday
-    getMonday(): BetterDate {
-        let result = new BetterDate();
-        result.setDate(result.getDate() - result.getDay() + 1)
-        return result;
-    }
 }
