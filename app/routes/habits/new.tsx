@@ -52,13 +52,19 @@ export default function NewHabit() {
 
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
-        <Form ref={formRef} replace method="post"  style={{display: "flex"}}>
+        <Form ref={formRef} replace method="post" style={{display: "flex"}}>
+            <input type="hidden" name="action" value="new"></input>
             <InputFieldWithError
                 actionData={actionData}
                 label="Name: "
                 fieldName="habitName"/>
-            <div className="grow" style={{marginLeft: "15px"}}>
-                <button type="submit">Create Habit</button>
+            <div style={{marginLeft: "15px"}}>
+                {transition.state === "submitting" && transition.submission?.formData.get("action") === "new"
+                    ? <div className="loader"></div> :
+                    <div className="grow" >
+                        <button type="submit">Create Habit</button>
+                    </div>
+                }
             </div>
             <div className="grow-text">
             <Link to="/habits" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
