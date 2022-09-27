@@ -1,6 +1,5 @@
 import { json } from "@remix-run/node";
 
-
 export interface ActionData {
     error?: string,
     fieldErrors?: {
