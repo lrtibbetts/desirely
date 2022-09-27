@@ -11,6 +11,7 @@ interface NewHabitActionData extends ActionData {
 }
 
 // TODO: clear any errors when form is hidden/clicked again
+// TODO: only display Create Habit button if text has been entered (prevent empty input)
 export default function NewHabit() {
     const transition = useTransition();
     const formRef = useRef() as MutableRefObject<HTMLFormElement>;

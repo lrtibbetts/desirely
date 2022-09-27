@@ -1,5 +1,5 @@
 import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useTransition } from "@remix-run/react";
 import { useState } from "react";
 import { serialize, deserialize } from "superjson";
 
@@ -103,6 +103,7 @@ export default function HabitsPage() {
     
     const [monday, setMonday] = useState(new BetterDate().getMonday());
     const [formVisible, setFormVisible] = useState(false);
+    const transition = useTransition();
 
     const lastWeek = () => {
         setMonday(monday.addDays(-7));
@@ -114,6 +115,7 @@ export default function HabitsPage() {
 
     // TODO: styling and positioning of < > and x
     // TODO: only show > if not on current week (?)
+    // TODO: hide x when submitting form
     return (
         <main>
             <h1>hello, {firstName}!</h1>
@@ -121,7 +123,9 @@ export default function HabitsPage() {
             {formVisible ?
                 <div style={{display:"flex"}}>
                     <NewHabit/>
-                    <button onClick={() => {setFormVisible(false)}} style={{marginLeft: "15px", border: "none"}}>x</button>
+                    <button onClick={() => {setFormVisible(false)}}
+                            disabled={transition.submission?.formData.get("action") === "new"}
+                            style={{marginLeft: "15px", border: "none"}}>x</button>
                 </div> : null}
             <div>
                 <h3 style={{marginTop:"50px"}}>Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
