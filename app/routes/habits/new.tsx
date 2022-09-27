@@ -61,14 +61,17 @@ export default function NewHabit() {
             <div style={{marginLeft: "15px"}}>
                 {transition.state === "submitting" && transition.submission?.formData.get("action") === "new"
                     ? <div className="loader"></div> :
-                    <div className="grow" >
-                        <button type="submit">Create Habit</button>
+                    <div>
+                        <span className="grow" >
+                            <button type="submit">Create Habit</button>
+                        </span>
+                        <span className="grow-text">
+                        <Link to="/habits" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
+                        </span>
                     </div>
                 }
             </div>
-            <div className="grow-text">
-            <Link to="/habits" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
-            </div>
+            
         </Form>
     );
 }
