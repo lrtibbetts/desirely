@@ -1,5 +1,5 @@
 import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { serialize, deserialize } from "superjson";
 
@@ -8,7 +8,9 @@ import { getUserId, requireUserId } from "~/models/session.server";
 import { getUserById, User } from "~/models/user.server";
 import { ActionData, badRequest } from "~/utils";
 import { BetterDate } from "~/types/BetterDate";
+
 import WeeklyView from "~/components/WeeklyView";
+import NewHabit from "~/components/NewHabit";
 
 type LoaderData = {
     habits: Array<Habit>;
@@ -100,6 +102,7 @@ export default function HabitsPage() {
     const { habits, firstName }  = deserialize(data) as LoaderData;
     
     const [monday, setMonday] = useState(new BetterDate().getMonday());
+    const [formVisible, setFormVisible] = useState(false);
 
     const lastWeek = () => {
         setMonday(monday.addDays(-7));
@@ -109,12 +112,17 @@ export default function HabitsPage() {
         setMonday(monday.addDays(7));
     }
 
-    // TODO: positioning of < >
+    // TODO: styling and positioning of < > and x
     // TODO: only show > if not on current week (?)
     return (
         <main>
             <h1>hello, {firstName}!</h1>
-            <Outlet/>
+            <button style={{border: "none", textDecoration: "underline", fontSize: "medium"}} hidden={formVisible} onClick={() => {setFormVisible(!formVisible)}}>Create a new habit.</button>
+            {formVisible ?
+                <div style={{display:"flex"}}>
+                    <NewHabit/>
+                    <button onClick={() => {setFormVisible(false)}} style={{marginLeft: "15px", border: "none"}}>x</button>
+                </div> : null}
             <div>
                 <h3 style={{marginTop:"50px"}}>Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
                 <button onClick={lastWeek}> {left} </button>

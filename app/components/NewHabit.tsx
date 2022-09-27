@@ -10,19 +10,20 @@ interface NewHabitActionData extends ActionData {
     }
 }
 
+// TODO: clear any errors when form is hidden/clicked again
 export default function NewHabit() {
     const transition = useTransition();
     const formRef = useRef() as MutableRefObject<HTMLFormElement>;
 
     useEffect(() => {
-        if (transition.state !== "idle") {
+        if (transition.state === "submitting" && transition.submission?.formData.get("action") === "new") {
             formRef.current?.reset();
         }
     }), [transition.state]
 
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
-        <Form ref={formRef} replace method="post" style={{display: "flex"}}>
+        <Form ref={formRef} method="post" style={{display: "flex"}}>
             <input type="hidden" name="action" value="new"></input>
             <InputFieldWithError
                 actionData={actionData}
@@ -35,13 +36,9 @@ export default function NewHabit() {
                         <span className="grow" >
                             <button type="submit">Create Habit</button>
                         </span>
-                        <span className="grow-text">
-                        <Link to="/habits" style={{marginLeft: "15px", textDecoration: "none", color: "black"}}>x</Link>
-                        </span>
                     </div>
                 }
             </div>
-            
         </Form>
     );
 }
