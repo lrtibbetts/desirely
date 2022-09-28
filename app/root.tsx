@@ -9,6 +9,7 @@ import {
 } from "@remix-run/react";
 
 import NavigationBar from "./components/NavigationBar";
+
 import sharedStylesheet from "./styles/shared.css";
 
 export const links: LinksFunction = () => {
