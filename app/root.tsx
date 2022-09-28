@@ -7,8 +7,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import NavigationBar from "./components/NavigationBar";
 
+import NavigationBar from "./components/NavigationBar";
 import sharedStylesheet from "./styles/shared.css";
 
 export const links: LinksFunction = () => {
@@ -29,7 +29,7 @@ function Document({children, title}: {children: React.ReactNode, title: string})
         <Links />
         <title>{title}</title>
       </head>
-      <body style={{backgroundColor:"honeydew", fontFamily: "Courier New, monospace", marginTop: "2%", marginLeft: "8%"}}>
+      <body>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
