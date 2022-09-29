@@ -10,10 +10,10 @@ import {
 
 import NavigationBar from "./components/NavigationBar";
 
-import sharedStylesheet from "./styles/shared.css";
+import tailwindStyles from "./styles/app.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: sharedStylesheet }];
+  return [{ rel: "stylesheet", href: tailwindStyles }];
 }
 
 export const meta: MetaFunction = () => ({
@@ -24,7 +24,7 @@ export const meta: MetaFunction = () => ({
 
 function Document({children, title}: {children: React.ReactNode, title: string}) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-blue-100 font-mono">
       <head>
         <Meta />
         <Links />
