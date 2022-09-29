@@ -25,9 +25,9 @@ async function seed() {
     // Create a couple habits
     await prisma.habit.createMany({
         data: [
-            { userId: me.id, habitName: "Yoga" },
-            { userId: me.id, habitName: "Cook dinner" },
-            { userId: me.id, habitName: "Run" }
+            { userId: me.id, habitName: "yoga" },
+            { userId: me.id, habitName: "cook dinner" },
+            { userId: me.id, habitName: "run" }
         ]
     });
 
@@ -36,13 +36,13 @@ async function seed() {
       where: { 
         userId_habitName: {
           userId: me.id,
-          habitName: "Yoga"
+          habitName: "yoga"
         }}});
     const dinner = await prisma.habit.findUniqueOrThrow({ 
       where: { 
         userId_habitName: {
           userId: me.id,
-          habitName: "Cook dinner"
+          habitName: "cook dinner"
         }}});
 
     const today = new Date();
