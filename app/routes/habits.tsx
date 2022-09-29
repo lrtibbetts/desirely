@@ -116,8 +116,8 @@ export default function HabitsPage() {
     // TODO: only show > if not on current week (?)
     // TODO: hide x when submitting form
     return (
-        <main className="mt-12 mx-16">
-            <h1 className="text-2xl font-bold">hello, {firstName}!</h1>
+        <main className="mx-16">
+            <h1 className="mt-8 text-2xl font-bold">hello, {firstName}!</h1>
             <button className="underline mt-4" hidden={formVisible}
                     onClick={() => {setFormVisible(!formVisible)}}>Create a new habit.</button>
             {formVisible ?
@@ -128,9 +128,13 @@ export default function HabitsPage() {
                             >x</button>
                 </div> : null}
             <div>
-                <h3 className="mt-12">Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
-                <button onClick={lastWeek}> {left} </button>
-                <button onClick={nextWeek}> {right} </button>
+                <div className="flex mt-4 justify-between">
+                    <h3 className="text-lg font-bold">Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
+                    <div>
+                        <button className="mr-4" onClick={lastWeek}> {left} </button>
+                        <button onClick={nextWeek}> {right} </button>
+                    </div>
+                </div>
                 {habits.map((habit : Habit) => (
                     <WeeklyView key={habit.habitName} habit={habit} days={monday.getDatesOfWeek()}/>
                 ))}

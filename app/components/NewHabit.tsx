@@ -28,7 +28,7 @@ export default function NewHabit() {
             <input type="hidden" name="action" value="new"></input>
             <InputFieldWithError
                 actionData={actionData}
-                label="Name: "
+                label="Name:"
                 fieldName="habitName"/>
             <div>
                 {transition.state === "submitting" && transition.submission?.formData.get("action") === "new"

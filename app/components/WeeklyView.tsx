@@ -14,7 +14,6 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
 
     const transition = useTransition();
     
-    // TODO: move inline CSS to stylesheet
     // TODO: positioning, hover for x
     // TODO: make habit editable
     return (
@@ -22,7 +21,6 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
             {transition.submission?.formData.get("action") === "delete"
             && transition.submission?.formData.get("id") === habit.id ? null :
                 <div>
-                    <div style={{marginTop: "25px", display: "flex"}}>
                     <Form method="post">
                         <input type="hidden" name="action" value="delete"></input>
                         <input type="hidden" name="id" value={habit.id.toString()}/>
@@ -30,8 +28,7 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
                             <h3>x</h3>
                         </button>
                     </Form>
-                    <h3>{habit.habitName}</h3>
-                    </div>
+                    <h3 className="text-lg">{habit.habitName}</h3>
                     {days.map((date: Date) => (
                         <DailyView
                             key={`${habit.id}-${date.toISOString()}`}

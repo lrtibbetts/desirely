@@ -558,6 +558,14 @@ video {
   margin-left: 0.5rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
 .inline {
   display: inline;
 }
@@ -568,6 +576,11 @@ video {
 
 .hidden {
   display: none;
+}
+
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .w-80 {
@@ -655,6 +668,11 @@ video {
   background-color: transparent;
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .p-1 {
   padding: 0.25rem;
 }
@@ -689,6 +707,10 @@ video {
 
 .pl-2 {
   padding-left: 0.5rem;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .font-mono {
