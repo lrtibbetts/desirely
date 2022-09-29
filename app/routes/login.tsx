@@ -71,7 +71,7 @@ export default function LoginPage() {
                     fieldName="password"
                     isPassword={true}/>
                 {actionData?.error ? <p>{actionData.error}</p> : null}
-                <button type="submit" className="mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">log in</button>
+                <button type="submit" className="rounded-md mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">log in</button>
             </Form>
             <Link to="/join" className="text-sm mt-4 hover:underline">sign up instead</Link>
         </div>

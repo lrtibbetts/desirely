@@ -92,7 +92,7 @@ export default function SignUpPage() {
                     actionData={actionData}
                     label="last name: "
                     fieldName="lastName"/>
-                <button type="submit" className="mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">sign up</button>
+                <button type="submit" className="rounded-md mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">sign up</button>
             </Form>
             <Link to="/login" className="text-sm mt-4 hover:underline">log in instead</Link>
         </div>
