@@ -60,7 +60,7 @@ export default function LoginPage() {
     return(
         <div className="flex flex-col items-center">
             <h1 className="font-bold text-lg mt-6">log in</h1>
-            <Form method="post" className="flex flex-col border-2 border-blue-300 pb-3 px-3 mt-6">
+            <Form method="post" className="flex flex-col border-2 rounded-md border-blue-300 pb-3 px-3 mt-6">
                 <InputFieldWithError<LoginActionData>
                     actionData={actionData}
                     label="email: "

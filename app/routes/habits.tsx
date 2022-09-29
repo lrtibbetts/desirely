@@ -42,7 +42,6 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     });
 }
 
-// TODO: path shouldn't change on action
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
     const formData = await request.formData();
     const userId = await getUserId(request);
@@ -117,18 +116,19 @@ export default function HabitsPage() {
     // TODO: only show > if not on current week (?)
     // TODO: hide x when submitting form
     return (
-        <main>
-            <h1>hello, {firstName}!</h1>
-            <button style={{border: "none", textDecoration: "underline", fontSize: "medium"}} hidden={formVisible} onClick={() => {setFormVisible(!formVisible)}}>Create a new habit.</button>
+        <main className="mt-12 mx-16">
+            <h1 className="text-2xl font-bold">hello, {firstName}!</h1>
+            <button className="underline mt-4" hidden={formVisible}
+                    onClick={() => {setFormVisible(!formVisible)}}>Create a new habit.</button>
             {formVisible ?
-                <div style={{display:"flex"}}>
+                <div>
                     <NewHabit/>
                     <button onClick={() => {setFormVisible(false)}}
                             disabled={transition.submission?.formData.get("action") === "new"}
-                            style={{marginLeft: "15px", border: "none"}}>x</button>
+                            >x</button>
                 </div> : null}
             <div>
-                <h3 style={{marginTop:"50px"}}>Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
+                <h3 className="mt-12">Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
                 <button onClick={lastWeek}> {left} </button>
                 <button onClick={nextWeek}> {right} </button>
                 {habits.map((habit : Habit) => (
