@@ -11,10 +11,10 @@ export type InputFieldWithErrorProps<T extends ActionData> = {
 // TODO: leave room for potential error message so elements don't shift
 export default function InputFieldWithError<T extends ActionData>({ actionData, label, fieldName, isPassword = false } : InputFieldWithErrorProps<T>) {
     return(
-        <div className="flex flex-row mt-3">
+        <div className="flex flex-row mt-3 w-80">
             <label className="mr-2">{label}</label>
             <input
-                className="grow"
+                className="grow text-sm"
                 type={isPassword ? "password" : "text"}
                 name={fieldName}
                 aria-invalid={actionData?.fieldErrors?.[fieldName] ? true : undefined}
