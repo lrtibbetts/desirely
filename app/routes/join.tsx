@@ -72,35 +72,29 @@ export default function SignUpPage() {
     const actionData = useActionData<JoinActionData>() as JoinActionData;
     
     return(
-        <div>
-            <h1>Sign up</h1>
-            <Form method="post">
-                <div>
-                    <InputFieldWithError<JoinActionData>
-                        actionData={actionData}
-                        label="Email: "
-                        fieldName="email"/>
-                    <InputFieldWithError<JoinActionData>
-                        actionData={actionData}
-                        label="Password: "
-                        fieldName="password"
-                        isPassword={true}/>
-                    <InputFieldWithError<JoinActionData>
-                        actionData={actionData}
-                        label="First Name: "
-                        fieldName="firstName"/>
-                    <InputFieldWithError<JoinActionData>
-                        actionData={actionData}
-                        label="Last Name: "
-                        fieldName="lastName"/>
-                    <p>
-                        <button type="submit">Sign up</button>
-                    </p>
-                    <div style={{fontSize: "small"}}>
-                        <Link to="/login">Log in instead</Link>
-                    </div>
-                </div>
+        <div className="flex flex-col items-center">
+            <h1 className="font-bold text-lg mt-6">Sign up</h1>
+            <Form method="post" className="flex flex-col border-2 border-blue-300 pb-2 px-2 mt-6">
+                <InputFieldWithError<JoinActionData>
+                    actionData={actionData}
+                    label="email: "
+                    fieldName="email"/>
+                <InputFieldWithError<JoinActionData>
+                    actionData={actionData}
+                    label="password: "
+                    fieldName="password"
+                    isPassword={true}/>
+                <InputFieldWithError<JoinActionData>
+                    actionData={actionData}
+                    label="first name: "
+                    fieldName="firstName"/>
+                <InputFieldWithError<JoinActionData>
+                    actionData={actionData}
+                    label="last name: "
+                    fieldName="lastName"/>
+                <button type="submit" className="mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">sign up</button>
             </Form>
+            <Link to="/login" className="text-sm mt-6 hover:underline">Log in instead</Link>
         </div>
     );
 }

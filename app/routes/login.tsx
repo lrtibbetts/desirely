@@ -1,9 +1,9 @@
 import { ActionArgs, ActionFunction, LoaderArgs, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
 
-import InputFieldWithError from "~/components/InputFieldWithError";
 import { createUserSession, getUserId } from "~/models/session.server";
 import { login, LoginResult } from "~/models/user.server";
+import InputFieldWithError from "~/components/InputFieldWithError";
 import { ActionData, badRequest, validateEmail, validatePassword } from "~/utils";
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
@@ -53,38 +53,27 @@ export const action: ActionFunction = async({ request }: ActionArgs) => {
     return createUserSession(id, "/habits");
 }
 
-// TOOD: move CSS to stylesheet
 export default function LoginPage() {
     const actionData = useActionData<LoginActionData>() as LoginActionData;
 
     // TODO: toggle for password visibility
     return(
-        <div>
-            <h1>Log in</h1>
-            <Form method="post">
-                <div style={{display:"inline-block"}}>
-                    <InputFieldWithError<LoginActionData>
-                        actionData={actionData}
-                        label="Email: "
-                        fieldName="email"/>
-                    <InputFieldWithError<LoginActionData>
-                        actionData={actionData}
-                        label="Password: "
-                        fieldName="password"
-                        isPassword={true}/>
-                    <div>
-                        {actionData?.error? (
-                            <p style={{fontSize: "small"}}>
-                                {actionData.error}
-                            </p>
-                        ) : null}
-                        <button type="submit">Log in</button>
-                    </div>
-                    <div style={{marginTop:"20px", fontSize: "small"}}>
-                        <Link to="/join">Sign up instead</Link>
-                    </div>
-                </div>
+        <div className="flex flex-col items-center">
+            <h1 className="font-bold text-lg mt-6">log in</h1>
+            <Form method="post" className="flex flex-col border-2 border-blue-300 pb-2 px-2 mt-6">
+                <InputFieldWithError<LoginActionData>
+                    actionData={actionData}
+                    label="email: "
+                    fieldName="email"/>
+                <InputFieldWithError<LoginActionData>
+                    actionData={actionData}
+                    label="password: "
+                    fieldName="password"
+                    isPassword={true}/>
+                {actionData?.error ? <p>{actionData.error}</p> : null}
+                <button type="submit" className="mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">log in</button>
             </Form>
+            <Link to="/join" className="text-sm mt-6 hover:underline">sign up instead</Link>
         </div>
     );
 }
