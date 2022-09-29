@@ -15,23 +15,23 @@ export default function DailyView({date, habitId, completed, dayAbbreviation}: D
 
     const transition = useTransition();
 
+    // FIXME: squiggle and container sizing
     return(
-        <Form className="day-container" method="post">
+        <Form method="post">
             <input type="hidden" name="action" value="updateEntry"/>
             <input type="hidden" name="completed" value={completed.toString()}/>
             <input type="hidden" name="date" value={date.toISOString()}/>
             <input type="hidden" name="id" value={habitId.toString()}/>
-            <button className="day-button" 
-                    type="submit"
-                    disabled={transition.state != "idle"}
-                    onClick={() => {
-                        setIsVisible(!isVisible);
-                        setIsAnimating(true);
-                    }}>
-                <span>
-                    <Squiggle visible={isVisible} animating={isAnimating}/>
-                </span>
-                <span className="grow"><img src={rect}/></span>
+            <button
+                className="mr-4"
+                type="submit"
+                disabled={transition.state != "idle"}
+                onClick={() => {
+                    setIsVisible(!isVisible);
+                    setIsAnimating(true);
+                }}>
+                <Squiggle visible={isVisible} animating={isAnimating}/>
+                <img src={rect}/>
             </button>
             <div>{dayAbbreviation}</div>
         </Form>

@@ -20,18 +20,18 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
         <div key={habit.id}>
             {transition.submission?.formData.get("action") === "delete"
             && transition.submission?.formData.get("id") === habit.id ? null :
-                <div className="bg-blue-200 rounded-md px-4 py-3 mt-4">
+                <div className="bg-blue-200 rounded-md pl-4 pr-3 py-3 mt-4">
                     <div className="flex justify-between">
                         <h3 className="text-lg font-bold">{habit.habitName}</h3>
                         <Form method="post">
                             <input type="hidden" name="action" value="delete"></input>
                             <input type="hidden" name="id" value={habit.id.toString()}/>
-                            <button type="submit" className="text-lg">
+                            <button type="submit" className="text-lg rounded-sm px-1 hover:bg-blue-300">
                                 <h3>x</h3>
                             </button>
                         </Form>
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between mt-3">
                         {days.map((date: Date) => (
                             <DailyView
                                 key={`${habit.id}-${date.toISOString()}`}

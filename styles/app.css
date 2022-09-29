@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.squiggle {
+    fill:none;
+    stroke:black;
+    stroke-width:0.4;
+    stroke-dasharray:125;
+
+    /** position **/
+    position: absolute;
+    margin-left: 5px;
+
+    max-width: fit-content;
+}
+
+.animating {
+    /** animate! **/
+    stroke-dashoffset: 125;
+    animation: dash 2s ease-in-out forwards;
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 125;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}

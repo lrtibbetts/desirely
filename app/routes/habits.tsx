@@ -116,7 +116,7 @@ export default function HabitsPage() {
     // TODO: only show > if not on current week (?)
     // TODO: hide x when submitting form
     return (
-        <main className="mx-16">
+        <main className="mx-8 md:mx-16">
             <h1 className="mt-8 text-2xl font-bold">hello, {firstName}!</h1>
             <button className="underline mt-6" hidden={formVisible}
                     onClick={() => {setFormVisible(!formVisible)}}>create a new habit.</button>

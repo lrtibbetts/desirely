@@ -8,7 +8,7 @@ The habits we are pursuing ought to align with the *big desires we have for our 
 
 ## What does desirely do?
 
-It is a (WIP) habit tracking application, created primarily as an exuse to play around with fun new web tech. It was built with TypeScript, Remix, Prisma, and Supabase.
+It is a (WIP) habit tracking application, created primarily as an exuse to play around with fun new web tech. It was built with TypeScript, Remix, Prisma, Supabase, and Tailwind.
 
 ## Development
 
