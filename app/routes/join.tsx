@@ -73,8 +73,8 @@ export default function SignUpPage() {
     
     return(
         <div className="flex flex-col items-center">
-            <h1 className="font-bold text-lg mt-6">Sign up</h1>
-            <Form method="post" className="flex flex-col border-2 border-blue-300 pb-2 px-2 mt-6">
+            <h1 className="font-bold text-lg mt-6">sign up</h1>
+            <Form method="post" className="flex flex-col border-2 border-blue-300 pb-3 px-3 mt-6">
                 <InputFieldWithError<JoinActionData>
                     actionData={actionData}
                     label="email: "
@@ -94,7 +94,7 @@ export default function SignUpPage() {
                     fieldName="lastName"/>
                 <button type="submit" className="mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">sign up</button>
             </Form>
-            <Link to="/login" className="text-sm mt-6 hover:underline">Log in instead</Link>
+            <Link to="/login" className="text-sm mt-4 hover:underline">Log in instead</Link>
         </div>
     );
 }
