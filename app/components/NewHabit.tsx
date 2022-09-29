@@ -22,20 +22,22 @@ export default function NewHabit() {
         }
     }), [transition.state]
 
+    // TODO: loader with tailwind
     const actionData = useActionData<NewHabitActionData>() as NewHabitActionData;
     return(
-        <Form ref={formRef} method="post">
+        <Form className="flex" ref={formRef} method="post">
             <input type="hidden" name="action" value="new"></input>
             <InputFieldWithError
                 actionData={actionData}
-                label="Name:"
+                label="name:"
                 fieldName="habitName"/>
-            <div>
+            <button type="submit" className="mt-3 ml-3 underline">create habit</button>
+            {/* <div>
                 {transition.state === "submitting" && transition.submission?.formData.get("action") === "new"
                     ? <div className="loader"></div> :
                     <button type="submit">Create Habit</button>
                 }
-            </div>
+            </div> */}
         </Form>
     );
 }

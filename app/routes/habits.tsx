@@ -118,18 +118,20 @@ export default function HabitsPage() {
     return (
         <main className="mx-16">
             <h1 className="mt-8 text-2xl font-bold">hello, {firstName}!</h1>
-            <button className="underline mt-4" hidden={formVisible}
-                    onClick={() => {setFormVisible(!formVisible)}}>Create a new habit.</button>
+            <button className="underline mt-6" hidden={formVisible}
+                    onClick={() => {setFormVisible(!formVisible)}}>create a new habit.</button>
             {formVisible ?
-                <div>
+                <div className="flex mt-3">
                     <NewHabit/>
                     <button onClick={() => {setFormVisible(false)}}
                             disabled={transition.submission?.formData.get("action") === "new"}
-                            >x</button>
+                            className="mt-3 ml-4">
+                        x
+                    </button>
                 </div> : null}
             <div>
                 <div className="flex mt-4 justify-between">
-                    <h3 className="text-lg font-bold">Week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
+                    <h3 className="text-lg font-bold">week of {monday.toString()} - {monday.addDays(6).toString()}:</h3>
                     <div>
                         <button className="mr-4" onClick={lastWeek}> {left} </button>
                         <button onClick={nextWeek}> {right} </button>

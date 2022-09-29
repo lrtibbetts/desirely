@@ -7,8 +7,8 @@ export type InputFieldWithErrorProps<T extends ActionData> = {
     isPassword?: boolean,
 }
 
-// TODO: make input take up full width of outer div
-// TODO: leave room for potential error message so elements don't shift
+// TODO: error message styling
+// TODO: don't have styling in here? easy to forget about
 export default function InputFieldWithError<T extends ActionData>({ actionData, label, fieldName, isPassword = false } : InputFieldWithErrorProps<T>) {
     return(
         <div className="flex flex-row mt-3 w-80">
