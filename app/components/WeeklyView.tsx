@@ -20,25 +20,30 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
         <div key={habit.id}>
             {transition.submission?.formData.get("action") === "delete"
             && transition.submission?.formData.get("id") === habit.id ? null :
-                <div>
-                    <Form method="post">
-                        <input type="hidden" name="action" value="delete"></input>
-                        <input type="hidden" name="id" value={habit.id.toString()}/>
-                        <button type="submit" className="day-button">
-                            <h3>x</h3>
-                        </button>
-                    </Form>
-                    <h3 className="text-lg">{habit.habitName}</h3>
-                    {days.map((date: Date) => (
-                        <DailyView
-                            key={`${habit.id}-${date.toISOString()}`}
-                            date={date}
-                            habitId={habit.id}
-                            completed={habit.habitEntries.find((entry: {entryDate : Date}) => {
-                                return entry.entryDate.getTime() === date.getTime();
-                            }) ? true : false}
-                            dayAbbreviation={dayAbbreviations[days.indexOf(date)]}/>
-                    ))}
+                <div className="bg-blue-200 rounded-md px-4 py-3 mt-4">
+                    <div className="flex justify-between">
+                        <h3 className="text-lg font-bold">{habit.habitName}</h3>
+                        <Form method="post">
+                            <input type="hidden" name="action" value="delete"></input>
+                            <input type="hidden" name="id" value={habit.id.toString()}/>
+                            <button type="submit" className="text-lg">
+                                <h3>x</h3>
+                            </button>
+                        </Form>
+                    </div>
+                    <div className="flex">
+                        {days.map((date: Date) => (
+                            <DailyView
+                                key={`${habit.id}-${date.toISOString()}`}
+                                date={date}
+                                habitId={habit.id}
+                                completed={habit.habitEntries.find((entry: {entryDate : Date}) => {
+                                    return entry.entryDate.getTime() === date.getTime();
+                                }) ? true : false}
+                                dayAbbreviation={dayAbbreviations[days.indexOf(date)]}/>
+                        ))}
+                    </div>
+                    
                 </div>
             }
         </div>
