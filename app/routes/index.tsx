@@ -10,12 +10,13 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   return {};
 }
 
+// TODO: define variables for theme colors
 export default function Index() {
   return (
     <div className="flex flex-col items-center">
-        <h1 className="text-lg font-bold mt-6">desirely</h1>
-        <Link to="/login" className="rounded-md bg-blue-200 hover:bg-blue-300 py-1 px-2 mt-6">log in</Link>
-        <Link to="/join" className="rounded-md bg-blue-200 hover:bg-blue-300 py-1 px-2 mt-3">sign up</Link>
+        {/* <h1 className="text-lg font-bold text-cyan-700 mt-6">welcome</h1> */}
+        <Link to="/login" className="rounded-md border-2 border-cyan-700 text-cyan-700 font-bold hover:bg-cyan-700 hover:text-cyan-50 hover:font-normal py-1 px-2 mt-6">log in</Link>
+        <Link to="/join" className="rounded-md border-2 border-cyan-700 text-cyan-700 font-bold hover:bg-cyan-700 hover:text-cyan-50 hover:font-normal py-1 px-2 mt-3">sign up</Link>
     </div>
   );
 }

@@ -59,8 +59,8 @@ export default function LoginPage() {
     // TODO: toggle for password visibility
     return(
         <div className="flex flex-col items-center">
-            <h1 className="font-bold text-lg mt-6">log in</h1>
-            <Form method="post" className="flex flex-col border-2 rounded-md border-blue-300 pb-3 px-3 mt-6">
+            <h1 className="font-bold text-lg mt-6 text-cyan-800">log in</h1>
+            <Form method="post" className="flex flex-col border-2 rounded-md border-cyan-700 pb-3 px-3 mt-6">
                 <InputFieldWithError<LoginActionData>
                     actionData={actionData}
                     label="email: "
@@ -71,9 +71,9 @@ export default function LoginPage() {
                     fieldName="password"
                     isPassword={true}/>
                 {actionData?.error ? <p>{actionData.error}</p> : null}
-                <button type="submit" className="rounded-md mt-6 bg-blue-200 hover:bg-blue-300 px-2 py-1 w-fit self-center">log in</button>
+                <button type="submit" className="rounded-md mt-6 bg-cyan-700 hover:bg-cyan-800 text-cyan-50 px-2 py-1 w-fit self-center">log in</button>
             </Form>
-            <Link to="/join" className="text-sm mt-4 hover:underline">sign up instead</Link>
+            <Link to="/join" className="text-sm mt-4 hover:underline text-cyan-800">sign up instead</Link>
         </div>
     );
 }

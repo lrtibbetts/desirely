@@ -9,6 +9,7 @@ type DailyViewProps = {
     dayAbbreviation: string;
 }
 
+// TODO: make black text dark cyan
 // TODO render day abbrev
 export default function DailyView({date, habitId, completed, dayAbbreviation}: DailyViewProps) {
     const [isAnimating, setIsAnimating] = useState(false);
@@ -19,7 +20,7 @@ export default function DailyView({date, habitId, completed, dayAbbreviation}: D
     // FIXME: have margin but keep aspect-square
     // FIXME: extra whitespace below button - why???
     return(
-        <Form method="post" className="border-2 border-black rounded-md w-1/6 aspect-square m-1">
+        <Form method="post" className="border-2 border-black rounded-md w-1/6 aspect-square mr-2">
             <input type="hidden" name="action" value="updateEntry"/>
             <input type="hidden" name="completed" value={completed.toString()}/>
             <input type="hidden" name="date" value={date.toISOString()}/>

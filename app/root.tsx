@@ -24,7 +24,7 @@ export const meta: MetaFunction = () => ({
 
 function Document({children, title}: {children: React.ReactNode, title: string}) {
   return (
-    <html lang="en" className="bg-blue-100 font-mono">
+    <html lang="en" className="bg-cyan-50 font-mono">
       <head>
         <Meta />
         <Links />
