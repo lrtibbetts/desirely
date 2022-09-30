@@ -20,7 +20,7 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
         <div key={habit.id}>
             {transition.submission?.formData.get("action") === "delete"
             && transition.submission?.formData.get("id") === habit.id ? null :
-                <div className="bg-blue-200 rounded-md pl-4 pr-3 py-3 mt-4">
+                <div className="bg-blue-200 rounded-md pl-4 pr-4 pt-3 pb-3 mt-3">
                     <div className="flex justify-between">
                         <h3 className="text-lg font-bold">{habit.habitName}</h3>
                         <Form method="post">
@@ -31,7 +31,7 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
                             </button>
                         </Form>
                     </div>
-                    <div className="flex justify-between mt-3">
+                    <div className="flex justify-between">
                         {days.map((date: Date) => (
                             <DailyView
                                 key={`${habit.id}-${date.toISOString()}`}
@@ -43,7 +43,6 @@ export default function WeeklyView({ habit, days } : WeeklyViewProps) {
                                 dayAbbreviation={dayAbbreviations[days.indexOf(date)]}/>
                         ))}
                     </div>
-                    
                 </div>
             }
         </div>

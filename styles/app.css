@@ -4,21 +4,22 @@
 
 .squiggle {
     fill:none;
-    stroke:black;
     stroke-width:0.4;
     stroke-dasharray:125;
 
-    /** position **/
-    position: absolute;
-    margin-left: 5px;
-
-    max-width: fit-content;
+    padding-left:2px;
+    padding-right:2px;
+    padding-top:2px;
 }
 
 .animating {
     /** animate! **/
     stroke-dashoffset: 125;
     animation: dash 2s ease-in-out forwards;
+}
+
+.visible {
+    stroke:black;
 }
 
 @keyframes dash {
