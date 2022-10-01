@@ -47,7 +47,9 @@ type SquiggleProps = {
 function Squiggle({visible, animating}: SquiggleProps) {
     return(
         <svg
-            className={animating ? "squiggle animating visible" : (visible ? "squiggle visible" : "squiggle")}
+            className=
+                {visible && animating ? "squiggle visible animating" : 
+                (visible ? "squiggle visible" : "squiggle")}
             width="100%"
             viewBox="0 0 12.969591 13.527871"
             version="1.1"
