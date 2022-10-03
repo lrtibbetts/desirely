@@ -1,6 +1,5 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useState } from "react";
-import rect from "~/assets/rect.svg";
 
 type DailyViewProps = {
     date: Date;
